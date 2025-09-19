@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { Command, CommandInput } from "../ui/command";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { MessageSquareReplyIcon, Upload, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import QuestionForm from "./QuestionForm";
 
@@ -11,7 +9,7 @@ export default function QnaHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleClick = () => {
-    setOpen(!open);
+    setOpen(true);
     // router.push("/qna/post");
   };
   return (
@@ -57,7 +55,7 @@ export default function QnaHeader() {
           </div>
         </div>
       </div>
-      {open && <QuestionForm />}
+      {open && <QuestionForm onOpen={setOpen} />}
     </>
   );
 }

@@ -154,7 +154,7 @@ export const question = pgTable("questions", {
   category: questionCategoryEnum("category").default(
     "fundamental-rights-and-duties"
   ),
-  updatedAt: timestamp("update_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

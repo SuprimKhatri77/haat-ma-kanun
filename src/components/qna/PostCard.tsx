@@ -18,12 +18,12 @@ const PostCard = ({
   likes,
   comments,
 }: {
-  user: { name: string; profilePicture: string };
-  timestamp: string;
-  content: string;
+  user?: { name?: string; profilePicture?: string };
+  timestamp?: string;
+  content?: string;
   imageUrl?: string;
-  likes: number;
-  comments: number;
+  likes?: number;
+  comments?: number;
 }) => {
   return (
     <div className="shadow-md rounded-lg p-4 mb-4 border stroke-1 stroke-white text-[#e1e1e1] max-w-[800px] w-full mx-auto">
