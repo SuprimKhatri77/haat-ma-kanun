@@ -2,6 +2,11 @@
 
 import z from "zod";
 import { auth } from "../../lib/auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { db } from "../../../lib/db";
+import { user } from "../../../lib/db/schema";
+import { eq } from "drizzle-orm";
 
 export type SignInFormState = {
   errors?: {
@@ -50,10 +55,24 @@ export async function signIn(prevState: SignInFormState, formData: FormData) {
         password,
       },
     });
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return redirect("/login");
+    }
+    const [userRecord] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, session.user.id));
+    if (!userRecord) {
+      return redirect("/sign-up");
+    }
+
     return {
       message: "signed in successfully!",
       success: true,
-      redirectTo: "/qna",
+      redirectTo: userRecord.role === "admin" ? "/admin" : "/qna",
       timestamp: new Date(),
     };
   } catch (error) {

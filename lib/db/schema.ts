@@ -9,7 +9,7 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 
-export const roleEnum = pgEnum("role", ["user", "advocate"]);
+export const roleEnum = pgEnum("role", ["user", "advocate", "admin"]);
 export const sexEnum = pgEnum("sex", ["male", "female", "others"]);
 export const advocateTypeEnum = pgEnum("advocate_type", [
   "advocate",

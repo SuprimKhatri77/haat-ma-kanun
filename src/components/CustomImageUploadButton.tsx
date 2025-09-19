@@ -1,104 +1,93 @@
 "use client";
 
-import { useState, useRef } from "react";
-import Image from "next/image";
-import { ImageIcon } from "lucide-react";
-import { useUploadThing } from "@/utlis/uploadthing";
-import Loader from "./Loader";
+import type React from "react";
 
-interface Props {
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Upload, ImageIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface CustomProfileUploaderProps {
   currentImage?: string;
   onUploadComplete: (url: string) => void;
-  imageUploadName?: string;
+  imageUploadName: string;
+  className?: string;
 }
 
 export default function CustomProfileUploader({
   currentImage,
   onUploadComplete,
   imageUploadName,
-}: Props) {
-  const [showButton, setShowButton] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  className,
+}: CustomProfileUploaderProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { startUpload, isUploading } = useUploadThing("imageUploader");
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+    setIsUploading(true);
 
-    const filesArray = Array.from(files);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-    const uploaded = await startUpload(filesArray);
-    if (uploaded && uploaded[0]?.ufsUrl) {
-      onUploadComplete(uploaded[0].ufsUrl);
+      const blobUrl = URL.createObjectURL(file);
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      onUploadComplete(blobUrl);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
-    <div className="flex items-center gap-4">
-      {/* {currentImage && (
-                <div className="relative w-14 h-14">
-                    <Image
-                        src={currentImage}
-                        alt="Uploaded preview"
-                        fill
-                        className="rounded-md object-cover border"
-                    />
-                </div>
-            )} */}
-
-      <button
-        type="button"
-        className={`${
-          imageUploadName === "Profile Picture"
-            ? ""
-            : "bg-gray-50 shadow-xl hover:bg-gray-100 "
-        }transition-all duration-300 text-black text-sm px-2 cursor-pointer rounded-md text-nowrap py-2`}
-        onClick={() => inputRef.current?.click()}
-        disabled={isUploading}
-      >
-        {isUploading ? (
-          <Loader />
-        ) : (
-          <div className="flex items-center gap-1">
-            {imageUploadName === "Profile Picture" ? (
-              !currentImage ? (
-                <Image
-                  src="5wt23w8lat.ufs.sh"
-                  alt="Profile Picture"
-                  width={200}
-                  height={200}
-                  className="rounded-full"
-                ></Image>
-              ) : (
-                <Image
-                  src={
-                    currentImage ||
-                    "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35M7weiCltXbdvD7y21YmnxrzNpeFI5R80wfLq"
-                  }
-                  alt="Profile Picture"
-                  width={200}
-                  height={200}
-                  className="rounded-full"
-                ></Image>
-              )
-            ) : (
-              <>
-                {imageUploadName}
-                <ImageIcon />
-              </>
-            )}
-          </div>
-        )}
-      </button>
-
+    <div className={cn("w-full", className)}>
       <input
+        ref={fileInputRef}
         type="file"
         accept="image/*"
-        ref={inputRef}
-        onChange={handleFileChange}
+        onChange={handleFileSelect}
         className="hidden"
       />
+
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleButtonClick}
+        disabled={isUploading}
+        className="w-full h-24 border-2 border-dashed border-muted-foreground/25 hover:border-primary/50 transition-colors bg-transparent"
+      >
+        <div className="flex flex-col items-center gap-2">
+          {isUploading ? (
+            <>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              <span className="text-sm">Uploading...</span>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                <ImageIcon className="h-5 w-5" />
+              </div>
+              <span className="text-sm font-medium">{imageUploadName}</span>
+              <span className="text-xs text-muted-foreground">
+                Click to browse files
+              </span>
+            </>
+          )}
+        </div>
+      </Button>
     </div>
   );
 }

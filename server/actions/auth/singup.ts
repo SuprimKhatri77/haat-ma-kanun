@@ -28,9 +28,10 @@ export type SignupFormState = {
 
 const roleEnum = z
   .string()
-  .refine((val) => ["advocate", "user"].includes(val), {
+  .refine((val) => ["advocate", "user", "admin"].includes(val), {
     error: "Invalid role.",
   }) as z.ZodType<"advocate", "user">;
+const adminEmails = process.env.ADMIN_EMAILS?.split(",") ?? [];
 export async function signUp(prevState: SignupFormState, formData: FormData) {
   const signUpSchema = z.object({
     firstName: z.string().nonempty().min(1).max(20),
@@ -58,21 +59,24 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
   }
 
   const { firstName, lastName, email, role, password } = validateFileds.data;
-  const normalzedEmail = email.toLowerCase();
   const normalizedRole = role.toLowerCase();
+  const normalizedEmail = email.toLowerCase();
+  const isAdmin = adminEmails.includes(normalizedEmail);
 
   try {
     await auth.api.signUpEmail({
       body: {
         name: `${firstName} ${lastName}`,
-        email: normalzedEmail,
+        email: normalizedEmail,
         password,
       },
     });
     await db
       .update(user)
       .set({
-        role: normalizedRole as "advocate" | "user",
+        role: isAdmin
+          ? "admin"
+          : (normalizedRole as "advocate" | "user" | "admin"),
         updatedAt: new Date(),
       })
       .where(eq(user.email, email));
@@ -81,7 +85,7 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
       message: "Signed up successfully!",
       success: true,
       timestamp: new Date(),
-      redirectTo: "/onboarding/advocate",
+      redirectTo: isAdmin ? "/admin" : "/onboarding/advocate",
     };
   } catch (error) {
     if (error instanceof APIError) {

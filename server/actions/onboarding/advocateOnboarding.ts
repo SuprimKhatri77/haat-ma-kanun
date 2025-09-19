@@ -20,7 +20,7 @@ export type AdvocateOnboardingFormState = {
       address?: string[];
       sex?: string[];
       advocateType?: string[];
-      barNumbr?: string[];
+      barNumber?: string[];
       yearsExperience?: string[];
       licenseFileUrl?: string[];
     };
@@ -29,6 +29,15 @@ export type AdvocateOnboardingFormState = {
   success?: boolean;
   timestamp?: Date;
   redirectTo?: string;
+  inputs?: {
+    image?: string;
+    address?: string;
+    sex?: string;
+    advocateType?: string;
+    barNumber?: string;
+    yearsExperience?: string;
+    licenseFileUrl?: string;
+  };
 };
 
 const sexEnum = z
@@ -60,6 +69,7 @@ export async function onboardingAdvocate(
   prevState: AdvocateOnboardingFormState,
   formData: FormData
 ) {
+  console.log("FormData: ", formData);
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -77,7 +87,6 @@ export async function onboardingAdvocate(
   const onboardingSchema = z.object({
     image: z.string().nonempty(),
     address: z.string().nonempty(),
-
     sex: sexEnum,
     advocateType: advocateEnum,
     barNumber: z.number().positive(),
@@ -88,15 +97,18 @@ export async function onboardingAdvocate(
   const validateFileds = onboardingSchema.safeParse({
     image: formData.get("image"),
     address: formData.get("address"),
-    sex: formData.get("gender"),
+    sex: formData.get("sex") as string,
     advocateType: formData.get("advocateType"),
-    yearsExperience: formData.get("yearsExperience"),
+    yearsExperience: Number(formData.get("yearsExperience")),
     licenseFileUrl: formData.get("licenseFileUrl"),
-    barNumber: formData.get("barNumber"),
+    barNumber: Number(formData.get("barNumber")),
   });
+  console.log("BarNumber type: ", typeof formData.get("barNumber"));
 
   if (!validateFileds.success) {
     const tree = z.treeifyError(validateFileds.error);
+    const inputData = Object.fromEntries(formData);
+    console.log("Error Tree: ", tree);
     return {
       errors: {
         properties: {
@@ -112,6 +124,7 @@ export async function onboardingAdvocate(
       message: "Validation failed",
       success: false,
       timestamp: new Date(),
+      inputs: inputData,
     };
   }
   const {
@@ -124,16 +137,43 @@ export async function onboardingAdvocate(
     advocateType,
   } = validateFileds.data;
 
-  const transformedBarNumber = String(barNumber);
   try {
     await db.insert(advocateProfile).values({
-      sex,
+      sex: sex as "male" | "female" | "others",
       licenseFileUrl,
-      barNumber: transformedBarNumber,
-      address,
-      yearsExperience,
-      advocateType,
+      barNumber: String(barNumber),
+      address: address.toLowerCase(),
+      yearsExperience: yearsExperience,
+      type: advocateType as
+        | "advocate"
+        | "senior"
+        | "corporate"
+        | "criminal"
+        | "civil"
+        | "constitutional"
+        | "human-rights"
+        | "government"
+        | "public-interest"
+        | "notary",
       id: userRecord.id,
+      status: "pending",
     } satisfies AdvocateProfileInsertType);
-  } catch (error) {}
+    await db.update(user).set({
+      image,
+      updatedAt: new Date(),
+    });
+    return {
+      message: "Onboarding form submitted successfully!",
+      success: true,
+      timestamp: new Date(),
+      redirectTo: "/waitlist",
+    };
+  } catch (error) {
+    console.error("Error: ", error);
+    return {
+      message: "Something went wrong!",
+      success: false,
+      timestamp: new Date(),
+    };
+  }
 }
