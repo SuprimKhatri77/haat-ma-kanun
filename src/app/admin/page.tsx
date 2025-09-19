@@ -4,8 +4,10 @@ import { redirect } from "next/navigation";
 import { db } from "../../../lib/db";
 import { advocateProfile, user } from "../../../lib/db/schema";
 import { eq } from "drizzle-orm";
+import { AdvocateProfileWithUser } from "../../../types/all-types";
+import AdminPage from "@/components/AdminPage";
 
-export default async function AdminPage() {
+export default async function Page() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -22,5 +24,11 @@ export default async function AdminPage() {
   if (userRecord.role !== "admin") {
     return redirect("/qna");
   }
-  return <div>Admin page</div>;
+  const advocateRecords: AdvocateProfileWithUser[] =
+    await db.query.advocateProfile.findMany({
+      with: {
+        user: true,
+      },
+    });
+  return <AdminPage advocateRecords={advocateRecords} />;
 }

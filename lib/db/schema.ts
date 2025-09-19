@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -195,9 +195,25 @@ export const answers = pgTable("answers", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const advocateUserRelation = relations(advocateProfile, ({ one }) => ({
+  user: one(user, {
+    fields: [advocateProfile.id],
+    references: [user.id],
+  }),
+}));
+
+export const userAdvocateRelation = relations(user, ({ one }) => ({
+  advocateProfile: one(advocateProfile, {
+    fields: [user.id],
+    references: [advocateProfile.id],
+  }),
+}));
+
 export type AdvocateProfileInsertType = InferInsertModel<
   typeof advocateProfile
 >;
 export type AdvocateProfileSelectType = InferSelectModel<
   typeof advocateProfile
 >;
+export type UserSelectType = InferSelectModel<typeof user>;
+export type UserInsertType = InferInsertModel<typeof user>;
