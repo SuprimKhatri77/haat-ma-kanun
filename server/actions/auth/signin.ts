@@ -28,8 +28,14 @@ export async function signIn(prevState: SignInFormState, formData: FormData) {
   });
 
   if (!validateFileds.success) {
+    const tree = z.treeifyError(validateFileds.error);
     return {
-      errors: z.treeifyError(validateFileds.error),
+      errors: {
+        properties: {
+          email: tree.properties?.email?.errors ?? [],
+          password: tree.properties?.password?.errors ?? [],
+        },
+      },
       message: "Validation Failed",
       success: true,
       timestamp: new Date(),
