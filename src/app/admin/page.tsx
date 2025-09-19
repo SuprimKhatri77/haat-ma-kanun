@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { db } from "../../../lib/db";
 import { advocateProfile, user } from "../../../lib/db/schema";
 import { eq } from "drizzle-orm";
+import Checklist from "@/components/Admin/lawyer-applications/Checklist";
+import LawyerApplications from "@/components/Admin/lawyer-applications/Checklist";
 
 export default async function AdminPage() {
   const session = await auth.api.getSession({
@@ -22,5 +24,5 @@ export default async function AdminPage() {
   if (userRecord.role !== "admin") {
     return redirect("/qna");
   }
-  return <div>Admin page</div>;
+  return <LawyerApplications />;
 }

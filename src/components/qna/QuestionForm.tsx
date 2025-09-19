@@ -91,7 +91,7 @@ export default function QuestionForm() {
     // Updated background and centering for a more professional look
 
     <div
-      className="min-h-screen  flex items-center justify-center  p-6 sm:p-12 transition-all ease-in duration-300 bg-black/70 absolute -translate-x-1/2 -translate-y-1/2
+      className="min-h-screen  flex items-center justify-center  p-6 sm:p-12 transition-all ease-in duration-300 bg-black/70 fixed -translate-x-1/2 -translate-y-1/2
       inset-0  top-1/2 left-1/2"
     >
       {" "}
@@ -139,7 +139,11 @@ export default function QuestionForm() {
                     <SelectTrigger className="bg-neutral-800 border-neutral-700">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent className="max-h-64 overflow-y-auto">
+                    <SelectContent
+                      side="bottom"
+                      position="popper"
+                      className="max-h-64 overflow-y-auto bg-black/70 text-white/70"
+                    >
                       {formSchema.shape.category.options.map((cat) => (
                         <SelectItem key={cat} value={cat}>
                           {cat.replace(/-/g, " ")}
@@ -159,7 +163,11 @@ export default function QuestionForm() {
                     <SelectTrigger className="bg-neutral-800 border-neutral-700">
                       <SelectValue placeholder="Select language" />
                     </SelectTrigger>
-                    <SelectContent className="max-h-64 overflow-y-auto">
+                    <SelectContent
+                      side="bottom"
+                      position="item-aligned"
+                      className=" overflow-y-auto bg-black/70 text-white/70"
+                    >
                       {formSchema.shape.language.options.map((lang) => (
                         <SelectItem key={lang} value={lang}>
                           {lang.replace(/-/g, " ")}

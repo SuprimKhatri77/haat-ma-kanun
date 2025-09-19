@@ -5,17 +5,21 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
-  { name: "About", href: "#link" },
+  { name: "My Queries", href: "myQueries" },
 ];
 
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const handleClick = () => {
+    setMenuState(!menuState);
+  };
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -60,7 +64,7 @@ export const HeroHeader = () => {
                   <li key={index}>
                     <Link
                       href={item.href}
-                      className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                      className="text-white hover:bg-[#210221] hover:px-2 hover:py-2 hover:bg-opacity-40 rounded-[6px] block duration-150"
                     >
                       <span>{item.name}</span>
                     </Link>
@@ -73,7 +77,7 @@ export const HeroHeader = () => {
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} onClick={handleClick}>
                       <Link
                         href={item.href}
                         className="text-muted-foreground hover:text-accent-foreground block duration-150"

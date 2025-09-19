@@ -1,6 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import {
+  ArrowBigRightIcon,
+  ArrowRight,
+  ArrowRightIcon,
+  ChevronRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
@@ -31,7 +36,7 @@ export default function HeroSection() {
   return (
     <>
       {/* <HeroHeader /> */}
-      <main className="overflow-hidden">
+      <main className="overflow-hidden bg-black">
         <div
           aria-hidden
           className="absolute inset-0 isolate hidden opacity-65 contain-strict lg:block"
@@ -40,7 +45,7 @@ export default function HeroSection() {
           <div className="h-320 absolute left-0 top-0 w-60 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
           <div className="h-320 -translate-y-87.5 absolute left-0 top-0 w-60 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)]" />
         </div>
-        <section>
+        <section className="pb-16">
           <div className="relative pt-24 md:pt-36">
             <AnimatedGroup
               variants={{
@@ -90,11 +95,6 @@ export default function HeroSection() {
                     href="#link"
                     className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
                   >
-                    <span className="text-foreground text-sm">
-                      Introducing Support for AI Models
-                    </span>
-                    <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
-
                     <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
                       <div className="flex w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
                         <span className="flex size-6">
@@ -149,24 +149,28 @@ export default function HeroSection() {
                     <Button
                       asChild
                       size="lg"
-                      className="rounded-xl px-5 text-base"
+                      className="rounded-[6px] px-5 text-base"
                     >
                       <Link href="#link">
-                        <span className="text-nowrap">As A Lawyer</span>
+                        <span className="text-nowrap flex items-center gap-3 justify-center">
+                          As A Lawyer <ArrowBigRightIcon />
+                        </span>
                       </Link>
                     </Button>
                   </div>
                   <div
                     key={1}
-                    className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5"
+                    className="bg-foreground/10 hover:bg-accent-foreground rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5"
                   >
                     <Button
                       asChild
                       size="lg"
-                      className="rounded-xl px-5 text-base"
+                      className="rounded-xl px-5 text-base flex items-center"
                     >
                       <Link href="#link">
-                        <span className="text-nowrap">As A User</span>
+                        <span className="text-nowrap flex items-center gap-3">
+                          As A User <ArrowBigRightIcon />
+                        </span>
                       </Link>
                     </Button>
                   </div>

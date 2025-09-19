@@ -3,28 +3,24 @@ import Link from "next/link";
 
 const links = [
   {
-    title: "Features",
-    href: "#",
+    title: "Home",
+    href: "/",
   },
   {
-    title: "Solution",
-    href: "#",
+    title: "Qna",
+    href: "qna",
   },
   {
-    title: "Customers",
-    href: "#",
+    title: "AreaLaw",
+    href: "areaLaw",
   },
   {
-    title: "Pricing",
-    href: "#",
-  },
-  {
-    title: "Help",
-    href: "#",
+    title: "My Queries",
+    href: "myQueries",
   },
   {
     title: "About",
-    href: "#",
+    href: "about",
   },
 ];
 
@@ -41,7 +37,7 @@ export default function FooterSection() {
             <Link
               key={index}
               href={link.href}
-              className="text-muted-foreground hover:text-primary block duration-150"
+              className="text-muted-foreground hover:text-white block duration-150"
             >
               <span>{link.title}</span>
             </Link>
@@ -53,7 +49,7 @@ export default function FooterSection() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X/Twitter"
-            className="text-muted-foreground hover:text-primary block"
+            className="text-white block"
           >
             <svg
               className="size-6"
