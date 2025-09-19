@@ -1,13 +1,15 @@
 "use server";
 
 import { timeStamp } from "console";
-import z, { ZodType } from "zod";
+import z, { success, ZodType } from "zod";
 import { auth } from "../../lib/auth/auth";
 import { db } from "../../../lib/db";
 import { eq } from "drizzle-orm";
 import { user } from "../../../lib/db/schema";
 import { timestamp } from "drizzle-orm/gel-core";
 import { APIError } from "better-auth";
+import { upsertStreamUser } from "@/config/stream";
+import { error } from "better-auth/api";
 
 export type SignupFormState = {
   errors?: {
@@ -76,6 +78,27 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
         updatedAt: new Date(),
       })
       .where(eq(user.email, email));
+
+    try {
+      await upsertStreamUser({
+        id: normalzedEmail,
+        name: `${firstName} ${lastName}`,
+        role,
+        email: normalzedEmail,
+      });
+      return {
+        error: error,
+        message: `Successfully user upserted in stream for ${firstName}`,
+        success: true,
+      };
+    } catch (error) {
+      console.error("Stream upsert error:", error);
+      return {
+        error: error,
+        message: "Error While Upserting user in stream",
+        success: false,
+      };
+    }
 
     return {
       message: "Signed up successfully!",

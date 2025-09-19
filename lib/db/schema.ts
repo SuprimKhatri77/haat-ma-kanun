@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -193,3 +194,5 @@ export const answers = pgTable("answers", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export type UserSelectType = InferSelectModel<typeof user>;
