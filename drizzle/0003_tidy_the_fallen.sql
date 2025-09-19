@@ -1,0 +1,1 @@
+ALTER TABLE "user" ALTER COLUMN "image" SET DEFAULT 'https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5';

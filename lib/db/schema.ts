@@ -71,7 +71,9 @@ export const user = pgTable("user", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
-  image: text("image"),
+  image: text("image").default(
+    "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
+  ),
   role: roleEnum("role").default("user"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -202,10 +204,34 @@ export const advocateUserRelation = relations(advocateProfile, ({ one }) => ({
   }),
 }));
 
-export const userAdvocateRelation = relations(user, ({ one }) => ({
+export const userAdvocateRelation = relations(user, ({ one, many }) => ({
   advocateProfile: one(advocateProfile, {
     fields: [user.id],
     references: [advocateProfile.id],
+  }),
+  question: many(question),
+}));
+
+export const questionRelation = relations(question, ({ one, many }) => ({
+  user: one(user, {
+    fields: [question.userId],
+    references: [user.id],
+  }),
+  likes: many(likes),
+  comments: many(comments),
+}));
+
+export const likeRelation = relations(likes, ({ one }) => ({
+  question: one(question, {
+    fields: [likes.questionId],
+    references: [question.id],
+  }),
+}));
+
+export const commentRelation = relations(comments, ({ one }) => ({
+  question: one(question, {
+    fields: [comments.questionId],
+    references: [question.id],
   }),
 }));
 
@@ -217,3 +243,9 @@ export type AdvocateProfileSelectType = InferSelectModel<
 >;
 export type UserSelectType = InferSelectModel<typeof user>;
 export type UserInsertType = InferInsertModel<typeof user>;
+export type QuestionSelectType = InferSelectModel<typeof question>;
+export type QuestionInsertType = InferInsertModel<typeof question>;
+export type LikeSelectType = InferSelectModel<typeof likes>;
+export type LikeInsertType = InferInsertModel<typeof likes>;
+export type CommentSelectType = InferSelectModel<typeof comments>;
+export type CommentInsertType = InferSelectModel<typeof comments>;
