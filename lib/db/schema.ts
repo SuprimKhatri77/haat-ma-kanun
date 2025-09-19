@@ -1,3 +1,4 @@
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -193,3 +194,10 @@ export const answers = pgTable("answers", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export type AdvocateProfileInsertType = InferInsertModel<
+  typeof advocateProfile
+>;
+export type AdvocateProfileSelectType = InferSelectModel<
+  typeof advocateProfile
+>;

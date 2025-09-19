@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { signUp, SignupFormState } from "../../server/actions/auth/singup";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import {
   Select,
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select";
 import Loader from "./Loader";
 import SignInSocial from "../../server/lib/auth/signin-social";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function SignUpPage() {
   const initialState: SignupFormState = {
@@ -28,6 +30,19 @@ export default function SignUpPage() {
 
   const [state, formAction, isPending] = useActionState(signUp, initialState);
   const [role, setRole] = useState<string>("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success && state.message) {
+      toast.message(state.message);
+      setTimeout(() => {
+        router.push(state.redirectTo as string);
+      }, 1500);
+    }
+    if (!state.success && state.message) {
+      toast.error(state.message);
+    }
+  }, [state.success, state.message, state.timestamp]);
   return (
     <section className="flex min-h-screen  px-4 py-16 md:py-32 dark:bg-transparent">
       <form
