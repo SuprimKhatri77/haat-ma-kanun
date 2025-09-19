@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "dotenv": "^17.2.2",
+    "lucide-react": "^0.544.0",
+    "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "react-router-dom": "^7.9.1",
+    "stream-chat": "^9.19.1",
+    "stream-chat-react": "^13.7.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "typescript": "^5.9.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
