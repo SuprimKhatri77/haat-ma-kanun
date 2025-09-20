@@ -1,0 +1,61 @@
+"use client";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { MessageSquareReplyIcon, Upload, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import QuestionForm from "./QuestionForm";
+
+export default function QnaHeader() {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const handleClick = () => {
+    setOpen(true);
+    // router.push("/qna/post");
+  };
+  return (
+    <>
+      <div className="border-1 border-[#dadada] text-[#dadada] flex justify-center items-center mx-auto max-w-[800px] p-6 w-full gap-8 rounded-2xl">
+        <div
+          id="Logo"
+          className="border-2 border-[#ffffff] rounded-full size-12"
+        >
+          {/* <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar> */}
+        </div>
+        <div className="grow flex gap-4 flex-col">
+          <div className="border-1 border-[#ffffff] rounded-2xl">
+            <input
+              type="text"
+              placeholder="Search"
+              className="placeholder:pl-4 py-2 px-2 w-full placeholder:bg-transparent  rounded-2xl text-[#dadada] focus:outline-none"
+            />
+          </div>
+          <div
+            id="AAP"
+            className="flex justify-around gap-4 space-4 items-center"
+          >
+            <div>
+              <Button className="ml-2" onClick={handleClick}>
+                Post <Upload className="h-4 w-4" />
+              </Button>
+            </div>
+            <div>
+              <Button className="ml-2">
+                Answer <MessageSquareReplyIcon className="h-4 w-4" />
+              </Button>
+            </div>
+            <div>
+              Post
+              <Button size="icon" className="ml-2">
+                <User className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {open && <QuestionForm onOpen={setOpen} />}
+    </>
+  );
+}

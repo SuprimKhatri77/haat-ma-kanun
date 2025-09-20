@@ -5,8 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SignInFormState, signIn } from "../../server/actions/auth/signin";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import SignInSocial from "../../server/lib/auth/signin-social";
+import Loader from "./Loader";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const initialState: SignInFormState = {
@@ -17,13 +20,25 @@ export default function LoginPage() {
   } as SignInFormState;
 
   const [state, formAction, isPending] = useActionState(signIn, initialState);
+  const router = useRouter();
+  useEffect(() => {
+    if (state.success && state.message) {
+      toast(state.message);
+      setTimeout(() => {
+        router.push(state.redirectTo as string);
+      }, 1200);
+    }
+    if (!state.success && state.message) {
+      toast(state.message);
+    }
+  }, [state.timestamp, state.success, state.message]);
   return (
-    <section className="flex min-h-screen px-4 py-16 md:py-32 dark:bg-transparent">
+    <section className="flex z-[10000] min-h-screen px-4 py-16 md:py-32 dark:bg-transparent">
       <form
-        action=""
+        action={formAction}
         className="bg-card m-auto h-fit w-full max-w-sm rounded-[calc(var(--radius)+.125rem)] border p-0.5 shadow-md dark:[--color-muted:var(--color-zinc-900)]"
       >
-        <div className="p-8 pb-6">
+        <div className="p-8 pb-6 text-black">
           <div>
             <Link href="/" aria-label="go home">
               {/* <LogoIcon /> */}
@@ -97,7 +112,9 @@ export default function LoginPage() {
               />
             </div>
 
-            <Button className="w-full">Sign In</Button>
+            <Button className="w-full" disabled={isPending}>
+              {isPending ? <Loader /> : "login"}
+            </Button>
           </div>
         </div>
 
@@ -110,6 +127,14 @@ export default function LoginPage() {
           </p>
         </div>
       </form>
+      {state.errors?.properties?.email && (
+        <p className="text-xs text-red-400">{state.errors.properties?.email}</p>
+      )}
+      {state.errors?.properties?.password && (
+        <p className="text-xs text-red-400">
+          {state.errors.properties?.password}
+        </p>
+      )}
     </section>
   );
 }

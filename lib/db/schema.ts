@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -9,7 +9,7 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 
-export const roleEnum = pgEnum("role", ["user", "advocate"]);
+export const roleEnum = pgEnum("role", ["user", "advocate", "admin"]);
 export const sexEnum = pgEnum("sex", ["male", "female", "others"]);
 export const advocateTypeEnum = pgEnum("advocate_type", [
   "advocate",
@@ -71,7 +71,9 @@ export const user = pgTable("user", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
-  image: text("image"),
+  image: text("image").default(
+    "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
+  ),
   role: roleEnum("role").default("user"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -154,7 +156,7 @@ export const question = pgTable("questions", {
   category: questionCategoryEnum("category").default(
     "fundamental-rights-and-duties"
   ),
-  updatedAt: timestamp("update_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -195,6 +197,44 @@ export const answers = pgTable("answers", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const advocateUserRelation = relations(advocateProfile, ({ one }) => ({
+  user: one(user, {
+    fields: [advocateProfile.id],
+    references: [user.id],
+  }),
+}));
+
+export const userAdvocateRelation = relations(user, ({ one, many }) => ({
+  advocateProfile: one(advocateProfile, {
+    fields: [user.id],
+    references: [advocateProfile.id],
+  }),
+  question: many(question),
+}));
+
+export const questionRelation = relations(question, ({ one, many }) => ({
+  user: one(user, {
+    fields: [question.userId],
+    references: [user.id],
+  }),
+  likes: many(likes),
+  comments: many(comments),
+}));
+
+export const likeRelation = relations(likes, ({ one }) => ({
+  question: one(question, {
+    fields: [likes.questionId],
+    references: [question.id],
+  }),
+}));
+
+export const commentRelation = relations(comments, ({ one }) => ({
+  question: one(question, {
+    fields: [comments.questionId],
+    references: [question.id],
+  }),
+}));
+
 export type AdvocateProfileInsertType = InferInsertModel<
   typeof advocateProfile
 >;
@@ -202,3 +242,10 @@ export type AdvocateProfileSelectType = InferSelectModel<
   typeof advocateProfile
 >;
 export type UserSelectType = InferSelectModel<typeof user>;
+export type UserInsertType = InferInsertModel<typeof user>;
+export type QuestionSelectType = InferSelectModel<typeof question>;
+export type QuestionInsertType = InferInsertModel<typeof question>;
+export type LikeSelectType = InferSelectModel<typeof likes>;
+export type LikeInsertType = InferInsertModel<typeof likes>;
+export type CommentSelectType = InferSelectModel<typeof comments>;
+export type CommentInsertType = InferSelectModel<typeof comments>;

@@ -1,11 +1,18 @@
-import { headers } from "next/headers";
-import { auth } from "../../../server/lib/auth/auth";
-import { redirect } from "next/navigation";
+import PostCard from "@/components/qna/PostCard";
+import QnaHeader from "@/components/qna/QnaHeader";
+import React from "react";
 import { db } from "../../../lib/db";
+import {
+  QuestionWithUserLikeAndComment,
+  QuestionWithUserLikeCommentCount,
+} from "../../../types/all-types";
+import { eq, sql } from "drizzle-orm";
+import { auth } from "../../../server/lib/auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { user } from "../../../lib/db/schema";
-import { eq } from "drizzle-orm";
 
-export default async function Page() {
+export default async function page() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -19,19 +26,38 @@ export default async function Page() {
   if (!userRecord) {
     return redirect("/sign-up");
   }
-  await fetch("/api/stream", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      id: userRecord.id,
-      name: userRecord.name,
-      email: userRecord.email,
-    }),
-  });
+  const questions: QuestionWithUserLikeAndComment[] =
+    await db.query.question.findMany({
+      with: {
+        user: true,
+        likes: true,
+        comments: true,
+      },
+    });
+  if (questions.length === 0) {
+    return [];
+  }
+  const questionsWithLikeCommentCount: QuestionWithUserLikeCommentCount[] =
+    questions.map((q) => ({
+      ...q,
+      likes: {
+        count: q.likes.length,
+      },
+      comments: {
+        count: q.comments.length,
+      },
+    }));
 
   return (
-    <div>
-      <h1>Q&A</h1>
-    </div>
+    <main className="mt-20">
+      <QnaHeader />
+      <div className="mt-6">
+        <PostCard
+          questions={questionsWithLikeCommentCount}
+          qsnWithLike={questions}
+          currentUserId={userRecord.id}
+        />
+      </div>
+    </main>
   );
 }
