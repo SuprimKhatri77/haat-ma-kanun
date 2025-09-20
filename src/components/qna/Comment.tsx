@@ -35,13 +35,14 @@ export default function CommentPage({
   const [response, setResponse] = useState<any[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const response = await fetchResponses(questionId);
-      if (!response) return;
-      setType(response?.type);
-      setResponse(response.data);
-    })();
-  }, [questionId, state]);
+    const loadResponses = async () => {
+      const res = await fetchResponses(questionId);
+      if (!res) return;
+      setType(res.type);
+      setResponse(res.data);
+    };
+    loadResponses();
+  }, [questionId]);
 
   useEffect(() => {
     if (state.success && state.message) {

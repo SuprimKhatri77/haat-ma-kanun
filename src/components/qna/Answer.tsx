@@ -19,12 +19,13 @@ export default function Answer({
   const [response, setResponse] = useState<any[]>([]);
   const [answer, setAnswer] = useState<string>("");
   useEffect(() => {
-    (async () => {
-      const response = await fetchResponses(questionId);
-      if (!response) return;
-      setType(response?.type);
-      setResponse(response.data);
-    })();
+    const loadResponses = async () => {
+      const res = await fetchResponses(questionId);
+      if (!res) return;
+      setType(res.type);
+      setResponse(res.data);
+    };
+    loadResponses();
   }, [questionId]);
 
   console.log("user Image: ", userRecord.image);
