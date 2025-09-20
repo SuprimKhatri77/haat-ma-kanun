@@ -75,8 +75,8 @@ export default function SignUpPage() {
               type="button"
               onClick={changeState}
               className={`${
-                !openGoogle ? "bg-white text-black" : ""
-              } text-base text-center py-2 px-3 hover:text-white flex items-center justify-center gap-4`}
+                !openGoogle ? "" : "bg-white text-black"
+              } text-base cursor-pointer text-center py-2 px-3 hover:text-white flex items-center justify-center gap-4`}
             >
               Student <ArrowDown />
             </Button>
@@ -84,8 +84,8 @@ export default function SignUpPage() {
               type="button"
               onClick={changeState}
               className={`${
-                !openLawyer ? "bg-white text-black" : ""
-              } text-base text-center py-2 px-3 hover:text-white flex items-center justify-center gap-4`}
+                !openLawyer ? "" : "bg-white text-black"
+              } text-base cursor-pointer text-center py-2 px-3 hover:text-white flex items-center justify-center gap-4`}
             >
               Lawyer <ArrowDown />
             </Button>
@@ -116,7 +116,7 @@ export default function SignUpPage() {
                     d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                   ></path>
                 </svg>
-                <span className="text-black">Google</span>
+                <span className="text-black cursor-pointer">Google</span>
               </SignInSocial>
             </div>
           )}
@@ -174,7 +174,7 @@ export default function SignUpPage() {
               <input type="hidden" name="role" value="advocate" required />
 
               <Button
-                className="w-full hover:bg-[#353535] transition-colors duration-200 ease-in"
+                className="w-full hover:bg-[#353535] cursor-pointer transition-colors duration-200 ease-in"
                 disabled={isPending}
               >
                 {isPending ? <Loader /> : "Sign up"}

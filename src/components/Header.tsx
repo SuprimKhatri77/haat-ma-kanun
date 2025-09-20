@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
+  { name: "Complains", href: "complain" },
   { name: "My Queries", href: "myQueries" },
 ];
 
@@ -29,23 +31,25 @@ export const HeroHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px]">
+    <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px] ">
       <nav data-state={menuState && "active"} className="w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12 rounded-[100px]",
+            "mx-auto mt-2 max-w-6xl px-6 xl:px-12 transition-all duration-300 lg:px-12 rounded-[100px] xl:rounded-[120px]",
             isScrolled &&
-              "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
+              "bg-background/50 max-w-4xl rounded-[100px] xl:rounded-[120px] border backdrop-blur-lg lg:px-5"
           )}
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
             <div className="flex w-full justify-between lg:w-auto">
-              <Link
-                href="/"
-                aria-label="home"
-                className="flex items-center space-x-2"
-              >
-                {/* <Logo /> */} Logo
+              <Link href="/" aria-label="go home" className="">
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={100}
+                  height={100}
+                  className="w-12 h-12"
+                />
               </Link>
 
               <button
