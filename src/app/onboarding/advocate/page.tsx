@@ -359,7 +359,7 @@ export default function AdvocateOnboardingForm({
               <div className="pt-6">
                 <Button
                   type="submit"
-                  className="text-black w-full hover:cursor-pointer hover:text-white h-12 text-base font-medium bg-gray-300 hover:bg-black transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="text-black  w-full hover:cursor-pointer hover:text-white h-12 text-base font-medium bg-gray-300  transition-all duration-200 shadow-lg hover:shadow-xl"
                   disabled={
                     isPending || !licenseFileUrl || !profilePhotoUrl || !sex
                   }

@@ -1,5 +1,5 @@
 import Features from "@/components/Features";
-import { HeroHeader } from "@/components/Header";
+// import { HeroHeader } from "@/components/Header";
 import HeroSection from "@/components/Hero";
 import StatsSection from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";

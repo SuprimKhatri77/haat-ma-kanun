@@ -53,12 +53,12 @@ export default function SignUpPage() {
     }
   }, [state.success, state.message, state.timestamp]);
   return (
-    <section className="flex text-black  min-h-screen  px-4 py-16 md:py-32 dark:bg-transparent">
+    <section className="flex text-black  min-h-screen  px-4 py-16 md:py-32 dark:bg-transparent max-w-[800px] w-full">
       <form
         action={formAction}
-        className="bg-black text-white m-auto h-fit w-full max-w-sm rounded-[calc(var(--radius)+.125rem)] border p-0.5 shadow-md dark:[--color-muted:var(--color-zinc-900)]"
+        className="bg-black text-white m-auto h-fit  rounded-[calc(var(--radius)+.125rem)] border p-0.5 shadow-md dark:[--color-muted:var(--color-zinc-900)] "
       >
-        <div className="p-8 pb-6">
+        <div className="p-8 pb-6 max-w-[800px] w-full">
           <div>
             <Link href="/" aria-label="go home" className="text-center">
               {/* <LogoIcon /> */}

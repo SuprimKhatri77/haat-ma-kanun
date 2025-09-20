@@ -7,6 +7,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { authClient } from "../../server/lib/auth/auth-client";
 
 const menuItems = [
   { name: "Home", href: "/" },
@@ -14,6 +15,12 @@ const menuItems = [
   { name: "AreaLaw", href: "areaLaw" },
   { name: "Complains", href: "complain" },
   { name: "My Queries", href: "myQueries" },
+];
+const lawyerItems = [
+  { name: "Home", href: "/" },
+  { name: "Qna", href: "qna" },
+  { name: "AreaLaw", href: "areaLaw" },
+  { name: "Complains", href: "complain" },
 ];
 
 export const HeroHeader = () => {
@@ -30,6 +37,7 @@ export const HeroHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   return (
     <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px] ">
       <nav data-state={menuState && "active"} className="w-full px-2">
@@ -103,7 +111,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
                 >
-                  <Link href="#">
+                  <Link href="/login">
                     <span>Login</span>
                   </Link>
                 </Button>
@@ -112,7 +120,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
                 >
-                  <Link href="#">
+                  <Link href="/sign-up">
                     <span>Sign Up</span>
                   </Link>
                 </Button>

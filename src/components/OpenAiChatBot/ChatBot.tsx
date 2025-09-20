@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { MessageSquareIcon, Send } from "lucide-react";
 
 export default function ChatBot() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
     { sender: "user" | "ai"; text: string }[]
   >([]);
@@ -34,7 +34,6 @@ export default function ChatBot() {
       const data = await res.json();
 
       if (data.reply) {
-        // Add AI response
         setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
       } else {
         setMessages((prev) => [

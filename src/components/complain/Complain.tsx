@@ -23,7 +23,7 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
         {videos.map((video) => (
           <Card
             key={video.id}
-            className="bg-neutral-900 border-neutral-800 max-w-[400px]  border-2 rounded-2xl"
+            className="bg-neutral-900 border-neutral-800 max-w-[400px] border-2 rounded-2xl"
           >
             <CardHeader>
               <CardTitle className="text-lg text-white">
@@ -37,29 +37,53 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
                 className="w-full rounded-xl mb-3 max-h-[400px]"
               />
               <p className="text-sm text-neutral-300 mb-3">{video.body}</p>
+
               <div className="flex items-center justify-between">
+                {/* User Info */}
                 <div className="flex items-center gap-2 text-neutral-400">
                   <User size={16} />
                   <span>Anonymous</span>
                 </div>
+
+                {/* Action Buttons */}
                 <div className="flex gap-3">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex items-center gap-1 cursor-pointer"
-                    onClick={() =>
-                      toast.success("Video Reposted Successfully!")
-                    }
-                  >
-                    <Tooltip>
-                      <TooltipTrigger>
+                  {/* Repost Button with Tooltip */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex items-center gap-1 cursor-pointer"
+                        onClick={() =>
+                          toast.success("Video Reposted Successfully!")
+                        }
+                      >
                         <Repeat size={16} />
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-neutral-800">
-                        <p>Repost</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </Button>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-neutral-800">
+                      <p>Repost</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  {/* Like Button (optional example) */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex items-center gap-1 cursor-pointer"
+                        onClick={() =>
+                          toast.success("Video Liked Successfully!")
+                        }
+                      >
+                        <ThumbsUp size={16} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-neutral-800">
+                      <p>Like</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
             </CardContent>
