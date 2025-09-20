@@ -3,7 +3,7 @@ import QnaHeader from "@/components/qna/QnaHeader";
 import React from "react";
 import { db } from "../../../lib/db";
 import {
-  QuestionWithUserLike,
+  QuestionWithUserLikeAndComment,
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { eq, sql } from "drizzle-orm";
@@ -26,13 +26,14 @@ export default async function page() {
   if (!userRecord) {
     return redirect("/sign-up");
   }
-  const questions: QuestionWithUserLike[] = await db.query.question.findMany({
-    with: {
-      user: true,
-      likes: true,
-      comments: true,
-    },
-  });
+  const questions: QuestionWithUserLikeAndComment[] =
+    await db.query.question.findMany({
+      with: {
+        user: true,
+        likes: true,
+        comments: true,
+      },
+    });
   if (questions.length === 0) {
     return [];
   }
