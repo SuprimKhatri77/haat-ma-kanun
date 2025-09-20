@@ -103,7 +103,7 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
         id: userRecord.id,
         name: `${firstName} ${lastName}`,
         role: "user",
-        email: normalzedEmail,
+        email: normalizedEmail,
       });
       console.log(`Successfully user upserted in stream for ${firstName}`);
     } catch (error) {
