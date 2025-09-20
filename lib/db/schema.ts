@@ -66,6 +66,7 @@ export const advocateVerifiedEnum = pgEnum("advocate_verified", [
   "verified",
   "rejected",
 ]);
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -232,6 +233,21 @@ export const commentRelation = relations(comments, ({ one }) => ({
   question: one(question, {
     fields: [comments.questionId],
     references: [question.id],
+  }),
+  user: one(user, {
+    fields: [comments.userId],
+    references: [user.id],
+  }),
+}));
+
+export const answerRelation = relations(answers, ({ one, many }) => ({
+  question: one(question, {
+    fields: [answers.questionId],
+    references: [question.id],
+  }),
+  advocateProfile: one(advocateProfile, {
+    fields: [answers.advocateId],
+    references: [advocateProfile.id],
   }),
 }));
 

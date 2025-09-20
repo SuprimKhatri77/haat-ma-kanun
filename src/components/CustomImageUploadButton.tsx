@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,6 +19,7 @@ export default function CustomProfileUploader({
   className,
 }: CustomProfileUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [preview, setPreview] = useState<string | undefined>(currentImage);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (
@@ -29,17 +28,32 @@ export default function CustomProfileUploader({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Show temporary preview
+    const tempPreview = URL.createObjectURL(file);
+    setPreview(tempPreview);
+
     setIsUploading(true);
 
     try {
+      // Upload to your server or UploadThing
       const formData = new FormData();
       formData.append("file", file);
 
-      const blobUrl = URL.createObjectURL(file);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!response.ok) throw new Error("Upload failed");
 
-      onUploadComplete(blobUrl);
+      const data = await response.json();
+      const uploadedUrl = data.url; // Permanent URL from server/UploadThing
+
+      // Call parent callback with permanent URL
+      onUploadComplete(uploadedUrl);
+
+      // Update preview to permanent URL
+      setPreview(uploadedUrl);
     } catch (error) {
       console.error("Upload failed:", error);
     } finally {
@@ -74,6 +88,12 @@ export default function CustomProfileUploader({
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
               <span className="text-sm">Uploading...</span>
             </>
+          ) : preview ? (
+            <img
+              src={preview}
+              alt="Preview"
+              className="h-full w-full object-contain rounded"
+            />
           ) : (
             <>
               <div className="flex items-center gap-2">

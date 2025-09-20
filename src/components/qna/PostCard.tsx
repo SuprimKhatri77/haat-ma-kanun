@@ -56,6 +56,9 @@ const PostCard = ({
     questions.map((question) => {
       const isLiked = hasLiked(currentUserId, question.id);
 
+      console.log("Image link via quesiton: ", question.user.image);
+      console.log("Image link via userrecord: ", userRecord.image);
+
       return (
         <div
           key={question.id}
@@ -65,6 +68,7 @@ const PostCard = ({
             <Image
               src={
                 question.user.image ||
+                (userRecord.image && userRecord.image) ||
                 "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
               }
               alt="Profile Picture"
