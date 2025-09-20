@@ -4,8 +4,14 @@ import { Button } from "../ui/button";
 import { MessageSquareReplyIcon, Upload, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import QuestionForm from "./QuestionForm";
+import { UserSelectType } from "../../../lib/db/schema";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-export default function QnaHeader() {
+export default function QnaHeader({
+  userRecord,
+}: {
+  userRecord: UserSelectType;
+}) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleClick = () => {
@@ -15,14 +21,28 @@ export default function QnaHeader() {
   return (
     <>
       <div className="border-1 border-[#dadada] text-[#dadada] flex justify-center items-center mx-auto max-w-[800px] p-6 w-full gap-8 rounded-2xl">
-        <div
-          id="Logo"
-          className="border-2 border-[#ffffff] rounded-full size-12"
-        >
-          {/* <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar> */}
+        <div id="Logo" className="">
+          {userRecord.image ? (
+            <Avatar className="w-12 h-12">
+              <AvatarImage
+                className="w-11.5 h-11.5 object-cover object-center"
+                src={
+                  userRecord.image ||
+                  "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
+                }
+              />
+              <AvatarFallback>{userRecord.name}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <Avatar>
+              <AvatarImage
+                src={
+                  "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
+                }
+              />
+              <AvatarFallback>{userRecord.name}</AvatarFallback>
+            </Avatar>
+          )}
         </div>
         <div className="grow flex gap-4 flex-col">
           <div className="border-1 border-[#ffffff] rounded-2xl">

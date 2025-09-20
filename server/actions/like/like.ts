@@ -1,9 +1,7 @@
 "use server";
-
 import { and, eq } from "drizzle-orm";
 import { db } from "../../../lib/db";
 import { likes, user } from "../../../lib/db/schema";
-import { timeStamp } from "console";
 import { revalidatePath } from "next/cache";
 
 export type LikeFormState = {
@@ -16,12 +14,17 @@ export type LikeFormState = {
   timestamp?: Date;
 };
 
-export async function likeAction(prevState: LikeFormState, formData: FormData) {
+export async function likeAction(
+  prevState: LikeFormState,
+  formData: FormData
+): Promise<LikeFormState> {
   const userId = formData.get("userId") as string;
   const questionId = formData.get("questionId") as string;
+
   if (!userId) {
     return {
-      error: {
+      errors: {
+        // Fixed: was "error", should be "errors"
         userId: "Missing user ID",
       },
       message: "failed!",
@@ -29,46 +32,53 @@ export async function likeAction(prevState: LikeFormState, formData: FormData) {
       timestamp: new Date(),
     };
   }
-  //   const [userRecord] = await db.select().from(user).where(eq(user.id, userId));
+
   if (!questionId) {
     return {
-      error: {
-        userId: "Missing question ID",
+      errors: {
+        // Fixed: was "error", should be "errors"
+        questionId: "Missing question ID", // Fixed: was userId, should be questionId
       },
       message: "failed!",
       success: false,
       timestamp: new Date(),
     };
   }
+
   try {
     const [likeRecord] = await db
       .select()
       .from(likes)
       .where(and(eq(likes.userId, userId), eq(likes.questionId, questionId)));
+
     if (likeRecord) {
+      // Unlike: remove the like
       await db
         .delete(likes)
         .where(and(eq(likes.userId, userId), eq(likes.questionId, questionId)));
+
       revalidatePath("/qna");
       return {
-        message: "liked removed successfully!",
+        message: "Like removed successfully!",
         success: true,
-        timeStamp: new Date(),
+        timestamp: new Date(), // Fixed: was timeStamp, should be timestamp
       };
     } else {
+      // Like: add the like
       await db.insert(likes).values({
         userId,
         questionId,
       });
+
       revalidatePath("/qna");
       return {
-        message: "liked successfully!",
+        message: "Liked successfully!",
         success: true,
-        timeStamp: new Date(),
+        timestamp: new Date(), // Fixed: was timeStamp, should be timestamp
       };
     }
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error in likeAction:", error);
     return {
       message: "Something went wrong!",
       success: false,
