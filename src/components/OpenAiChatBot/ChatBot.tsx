@@ -1,31 +1,60 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MessageSquareIcon, Send } from "lucide-react";
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(true);
   const [messages, setMessages] = useState<
-    { sender: "user" | "bot"; text: string }[]
+    { sender: "user" | "ai"; text: string }[]
   >([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isTyping]);
+
+  async function sendMessage() {
     if (!input.trim()) return;
-    setMessages([...messages, { sender: "user", text: input }]);
-    setInput("");
 
-    // fake bot response
-    setTimeout(() => {
+    setMessages((prev) => [...prev, { sender: "user", text: input }]);
+
+    const userMessage = input;
+    setInput("");
+    setIsTyping(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      const data = await res.json();
+
+      if (data.reply) {
+        // Add AI response
+        setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { sender: "ai", text: "Oops! Something went wrong." },
+        ]);
+      }
+    } catch (error) {
+      console.error(error);
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "This is a bot reply." },
+        { sender: "ai", text: "Oops! Something went wrong." },
       ]);
-    }, 500);
-  };
+    } finally {
+      setIsTyping(false);
+    }
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      {/* Toggle Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -35,10 +64,8 @@ export default function ChatBot() {
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="w-80 h-96 bg-black text-white rounded-xl shadow-xl flex flex-col overflow-hidden border border-gray-700">
-          {/* Header */}
           <div className="flex justify-between items-center px-4 py-2 border-b border-gray-700 bg-gray-900">
             <h2 className="text-sm font-semibold">AI Chatbot</h2>
             <button
@@ -49,7 +76,6 @@ export default function ChatBot() {
             </button>
           </div>
 
-          {/* Messages */}
           <div className="flex-1 p-3 space-y-2 overflow-y-auto text-sm">
             {messages.map((msg, idx) => (
               <div
@@ -63,20 +89,29 @@ export default function ChatBot() {
                 {msg.text}
               </div>
             ))}
+
+            {isTyping && (
+              <div className="flex items-center gap-1 mr-auto">
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce delay-75"></span>
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce delay-150"></span>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div className="flex items-center border-t border-gray-700 bg-gray-900 p-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="Type a message..."
               className="flex-1 bg-transparent outline-none text-white placeholder-gray-500 px-2"
             />
             <button
-              onClick={handleSend}
+              onClick={sendMessage}
               className="p-2 text-white hover:text-gray-300"
             >
               <Send size={18} />

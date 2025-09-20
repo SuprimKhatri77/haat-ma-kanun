@@ -43,6 +43,7 @@ export default function Testimonials() {
                       height="400"
                       width="400"
                       loading="lazy"
+                      className="object-cover object-center"
                     />
                     <AvatarFallback>RP</AvatarFallback>
                   </Avatar>
@@ -73,6 +74,7 @@ export default function Testimonials() {
                       height="400"
                       width="400"
                       loading="lazy"
+                      className="object-cover object-center"
                     />
                     <AvatarFallback>BKM</AvatarFallback>
                   </Avatar>
@@ -104,6 +106,7 @@ export default function Testimonials() {
                       height="400"
                       width="400"
                       loading="lazy"
+                      className="object-cover object-center"
                     />
                     <AvatarFallback>SK</AvatarFallback>
                   </Avatar>
@@ -133,6 +136,7 @@ export default function Testimonials() {
                       height="400"
                       width="400"
                       loading="lazy"
+                      className="object-cover object-center"
                     />
                     <AvatarFallback>PK</AvatarFallback>
                   </Avatar>
