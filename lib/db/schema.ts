@@ -299,3 +299,7 @@ export type LikeSelectType = InferSelectModel<typeof likes>;
 export type LikeInsertType = InferInsertModel<typeof likes>;
 export type CommentSelectType = InferSelectModel<typeof comments>;
 export type CommentInsertType = InferSelectModel<typeof comments>;
+export type VideoSelecType = InferSelectModel<typeof video>;
+export type VideoInsertType = InferInsertModel<typeof video>;
+export type RepostVideosInsertType = InferInsertModel<typeof repostVideos>;
+export type RepostVideosSelectType = InferSelectModel<typeof repostVideos>;
