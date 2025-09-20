@@ -15,6 +15,11 @@ export type QuestionWithUserLikeAndComment = QuestionSelectType & {
   likes: LikeSelectType[];
   comments: CommentSelectType[];
 };
+export type QuestionWithUserLikeComment = QuestionSelectType & {
+  user: UserSelectType;
+  likes: LikeSelectType[];
+  comments: CommentSelectType[];
+};
 export type QuestionWithUserLikeCommentCount = QuestionSelectType & {
   user: UserSelectType;
   likes: {

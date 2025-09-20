@@ -21,13 +21,11 @@ export default function QnaHeader({
   return (
     <>
       <div className="border-1 border-[#dadada] text-[#dadada] flex justify-center items-center mx-auto max-w-[800px] p-6 w-full gap-8 rounded-2xl">
-        <div
-          id="Logo"
-          className="border-2 border-[#ffffff] rounded-full size-12"
-        >
+        <div id="Logo" className="">
           {userRecord.image ? (
-            <Avatar>
+            <Avatar className="w-12 h-12">
               <AvatarImage
+                className="w-11.5 h-11.5 object-cover object-center"
                 src={
                   userRecord.image ||
                   "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"

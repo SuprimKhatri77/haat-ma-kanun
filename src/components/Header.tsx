@@ -5,17 +5,21 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
-  { name: "About", href: "#link" },
+  { name: "My Queries", href: "myQueries" },
 ];
 
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const handleClick = () => {
+    setMenuState(!menuState);
+  };
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -25,11 +29,11 @@ export const HeroHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <header className="fixed top-0 z-50 w-full">
+    <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px]">
       <nav data-state={menuState && "active"} className="w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
+            "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12 rounded-[100px]",
             isScrolled &&
               "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
           )}
@@ -60,7 +64,11 @@ export const HeroHeader = () => {
                   <li key={index}>
                     <Link
                       href={item.href}
-                      className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                      className={` ${
+                        isScrolled
+                          ? "text-black hover:text-white"
+                          : "text-white"
+                      }  hover:bg-[#210221] hover:px-2 hover:py-2 hover:bg-opacity-40 rounded-[6px] block duration-150`}
                     >
                       <span>{item.name}</span>
                     </Link>
@@ -73,7 +81,7 @@ export const HeroHeader = () => {
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item, index) => (
-                    <li key={index}>
+                    <li key={index} onClick={handleClick}>
                       <Link
                         href={item.href}
                         className="text-muted-foreground hover:text-accent-foreground block duration-150"
