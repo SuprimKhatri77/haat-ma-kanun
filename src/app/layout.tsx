@@ -4,6 +4,7 @@ import "./globals.css";
 import { HeroHeader } from "@/components/Header";
 import FooterSection from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import ChatBot from "@/components/OpenAiChatBot/ChatBot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         <HeroHeader />
+        <ChatBot />
         {children}
         <FooterSection />
         <Toaster />

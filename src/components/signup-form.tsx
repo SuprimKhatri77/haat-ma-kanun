@@ -48,6 +48,7 @@ export default function SignUpPage() {
       }, 1500);
     }
     if (!state.success && state.message) {
+      console.log(state.errors);
       toast.error(state.message);
     }
   }, [state.success, state.message, state.timestamp]);
@@ -130,7 +131,7 @@ export default function SignUpPage() {
                   </Label>
                   <Input
                     type="text"
-                    value={"Roshan"}
+                    // defaultValue={"Roshan"}
                     required
                     name="firstName"
                     id="firstname"
@@ -142,7 +143,7 @@ export default function SignUpPage() {
                   </Label>
                   <Input
                     type="text"
-                    value={"Pokharel"}
+                    // defaultValue={"Pokharel"}
                     required
                     name="lastName"
                     id="lastname"

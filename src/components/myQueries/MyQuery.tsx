@@ -67,6 +67,7 @@ export default function MyQuery({
   questions: QuestionWithUserLikeCommentCount[];
 }) {
   const [openAnswer, setOpenAnswer] = useState(false);
+  console.log("questions", questions);
   return questions.map((question) => {
     return (
       <div

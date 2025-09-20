@@ -10,7 +10,7 @@ export type AdvocateProfileWithUser = AdvocateProfileSelectType & {
   user: UserSelectType;
 };
 
-export type QuestionWithUserLike = QuestionSelectType & {
+export type QuestionWithUserLikeAndComment = QuestionSelectType & {
   user: UserSelectType;
   likes: LikeSelectType[];
   comments: CommentSelectType[];

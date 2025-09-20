@@ -151,7 +151,7 @@ export default function HeroSection() {
                       size="lg"
                       className="rounded-[6px] px-5 text-base"
                     >
-                      <Link href="#link">
+                      <Link href="/sign-up">
                         <span className="text-nowrap flex items-center gap-3 justify-center">
                           As A Lawyer <ArrowBigRightIcon />
                         </span>
@@ -167,7 +167,7 @@ export default function HeroSection() {
                       size="lg"
                       className="rounded-xl px-5 text-base flex items-center"
                     >
-                      <Link href="#link">
+                      <Link href="/sign-up">
                         <span className="text-nowrap flex items-center gap-3">
                           As A User <ArrowBigRightIcon />
                         </span>

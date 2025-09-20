@@ -29,7 +29,7 @@ export const HeroHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <header className="fixed top-0 z-50 w-full">
+    <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px]">
       <nav data-state={menuState && "active"} className="w-full px-2">
         <div
           className={cn(
@@ -64,7 +64,11 @@ export const HeroHeader = () => {
                   <li key={index}>
                     <Link
                       href={item.href}
-                      className="text-white hover:bg-[#210221] hover:px-2 hover:py-2 hover:bg-opacity-40 rounded-[6px] block duration-150"
+                      className={` ${
+                        isScrolled
+                          ? "text-black hover:text-white"
+                          : "text-white"
+                      }  hover:bg-[#210221] hover:px-2 hover:py-2 hover:bg-opacity-40 rounded-[6px] block duration-150`}
                     >
                       <span>{item.name}</span>
                     </Link>

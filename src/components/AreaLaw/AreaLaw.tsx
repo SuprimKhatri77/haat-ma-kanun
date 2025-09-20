@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 const translations = {
   en: {
     title: "Tilottama Municipality",
-    subtitle: "Financial Act Document Reader",
+    subtitle: "Financial Act of Tilottama Municipality",
     searchPlaceholder: "Search the document...",
     viewOriginal: "View Original",
     noResults: "No results found for your search and filter criteria.",
@@ -980,10 +980,10 @@ const AreaLaw = () => {
   }, [searchTerm, filter, parsedContent]);
 
   return (
-    <div className="bg-gray-900 text-gray-200 min-h-screen font-sans antialiased p-4 sm:p-8">
+    <div className="bg-black text-gray-200 min-h-screen font-sans antialiased p-4 sm:p-8">
       <style>{`
         body {
-          background-color: #1a202c;
+          background-color: #111111;
         }
         .text-neon-green {
           color: #39FF14;
@@ -1075,12 +1075,9 @@ const AreaLaw = () => {
     border border-transparent 
     text-sm font-medium 
     rounded-md shadow-sm 
-    text-gray-800 dark:text-white
-    bg-gradient-to-r from-green-400 to-emerald-600 
-    dark:from-emerald-500 dark:to-green-400
+    text-black 
     hover:opacity-90
-    focus:outline-none focus:ring-2 focus:ring-offset-2 
-    focus:ring-green-500 dark:focus:ring-green-400
+    bg-[#EAEAEA]
   "
             >
               {currentTranslation.switchLangButton}
