@@ -14,17 +14,35 @@ import {
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { likeAction, LikeFormState } from "../../../server/actions/like/like";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { UserSelectType } from "../../../lib/db/schema";
+import CommentPage from "./Comment";
 
 const PostCard = ({
   questions,
   qsnWithLike,
   currentUserId,
+  userRecord,
 }: {
   questions: QuestionWithUserLikeCommentCount[];
   qsnWithLike: QuestionWithUserLikeAndComment[];
   currentUserId: string;
+  userRecord: UserSelectType;
 }) => {
+  const initialState: LikeFormState = {
+    errors: {},
+    message: "",
+    timestamp: new Date(),
+    success: false,
+  };
+  const [state, formAction, isPending] = useActionState<
+    LikeFormState,
+    FormData
+  >(likeAction, initialState);
+
+  const [clickedQuestionId, setClickedQuestionId] = useState<string>("");
+  const [showComments, setShowComments] = useState<string | null>(null);
+
   const hasLiked = (userId: string, questionId: string) => {
     return qsnWithLike.some((qsnWL) =>
       qsnWL.likes.some(
@@ -32,18 +50,6 @@ const PostCard = ({
       )
     );
   };
-
-  const initialState: LikeFormState = {
-    errors: {},
-    message: "",
-    timestamp: new Date(),
-    success: false,
-  };
-
-  const [state, formAction, isPending] = useActionState<
-    LikeFormState,
-    FormData
-  >(likeAction, initialState);
 
   return (
     questions.length > 0 &&
@@ -83,9 +89,9 @@ const PostCard = ({
             <div className="flex gap-2 mt-1">
               <div className="bg-transparent flex items-center gap-1">
                 <p>
-                  {isLiked && isPending
+                  {isLiked && isPending && clickedQuestionId === question.id
                     ? question.likes.count - 1
-                    : !isLiked && isPending
+                    : !isLiked && isPending && clickedQuestionId === question.id
                     ? question.likes.count + 1
                     : question.likes.count}
                 </p>
@@ -93,11 +99,15 @@ const PostCard = ({
                 <form action={formAction}>
                   <Button
                     type="submit"
+                    onClick={() => setClickedQuestionId(question.id)}
                     className="bg-transparent hover:bg-transparent hover:scale-115 cursor-pointer"
                   >
-                    {isPending ? (
+                    {isPending &&
+                    clickedQuestionId === question.id &&
+                    !isLiked ? (
                       <Heart className="fill-red-500" />
-                    ) : isLiked ? (
+                    ) : isLiked &&
+                      !(isPending && clickedQuestionId === question.id) ? (
                       <Heart className="fill-red-500" />
                     ) : (
                       <Heart />
@@ -118,7 +128,14 @@ const PostCard = ({
                 </form>
               </div>
 
-              <Button className="bg-transparent">
+              <Button
+                className="bg-transparent hover:bg-transparent"
+                onClick={() =>
+                  setShowComments(
+                    showComments === question.id ? null : question.id
+                  )
+                }
+              >
                 {question.comments.count} Comments
                 <div>
                   <MessageCircleIcon />
@@ -134,13 +151,7 @@ const PostCard = ({
                     Answer
                   </Button>
                 )}
-              {question.user.role === "user" &&
-                question.userId !== currentUserId && (
-                  <Button>
-                    <MessageSquareTextIcon className="mr-2 h-4 w-4" />
-                    Comment
-                  </Button>
-                )}
+
               {question.userId !== currentUserId && (
                 <Button>
                   <MessageSquareWarningIcon className="mr-2 h-4 w-4" />
@@ -149,7 +160,12 @@ const PostCard = ({
               )}
             </div>
           </div>
-          <Answer />
+          {showComments === question.id && userRecord.role === "advocate" && (
+            <Answer userRecord={userRecord} questionId={question.id} />
+          )}
+          {showComments === question.id && userRecord.role === "user" && (
+            <CommentPage userRecord={userRecord} questionId={question.id} />
+          )}
         </div>
       );
     })

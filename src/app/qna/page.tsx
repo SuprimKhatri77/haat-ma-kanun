@@ -52,15 +52,11 @@ export default async function page() {
   }));
 
   return (
-    <main className="mt-20">
-      <QnaHeader />
-      <div className="mt-6">
-        <PostCard
-          questions={questionsWithLikeCommentCount}
-          qsnWithLike={questions}
-          currentUserId={userRecord.id}
-        />
-      </div>
-    </main>
+    <QnaPage
+      userRecord={userRecord}
+      questions={questions}
+      // questions={questionsWithLikeCommentCount}
+      currentUserId={userRecord.id}
+    />
   );
 }
