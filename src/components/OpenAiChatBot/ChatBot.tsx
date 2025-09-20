@@ -111,7 +111,7 @@ export default function ChatBot() {
             />
             <button
               onClick={sendMessage}
-              className="p-2 text-white hover:text-gray-300"
+              className="p-2 text-white hover:text-gray-300 cursor-pointer"
             >
               <Send size={18} />
             </button>

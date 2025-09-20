@@ -161,7 +161,6 @@ const PostCard = ({
                 </Button>
               )}
             </div>
-            {/* <Answer  /> */}
           </div>
           {showComments === question.id && userRecord.role === "advocate" && (
             <Answer userRecord={userRecord} questionId={question.id} />

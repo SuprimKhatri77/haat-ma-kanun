@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/AreaLaw/AreaLaw.jsx"
+    "src/components/AreaLaw/AreaLaw.tsx"
   ],
   "exclude": ["node_modules"]
 }

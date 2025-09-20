@@ -6,7 +6,6 @@ import { db } from "../../../lib/db";
 import { user } from "../../../auth-schema";
 import { eq } from "drizzle-orm";
 import {
-  QuestionWithUserLike,
   QuestionWithUserLikeComment,
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";

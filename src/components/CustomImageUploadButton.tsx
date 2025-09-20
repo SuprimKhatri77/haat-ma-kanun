@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { useUploadThing } from "@/utlis/uploadthing";
+import Loader from "./Loader";
 
 interface Props {
   currentImage?: string;
@@ -34,7 +35,7 @@ export default function CustomProfileUploader({
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex gap-4">
       {/* {currentImage && (
                 <div className="relative w-14 h-14">
                     <Image
@@ -49,17 +50,15 @@ export default function CustomProfileUploader({
       <button
         type="button"
         className={`${
-          imageUploadName === "Profile Picture"
-            ? ""
-            : "bg-gray-50 shadow-xl hover:bg-gray-100 "
+          imageUploadName === "Profile Picture" ? "" : ""
         }transition-all duration-300 text-black text-sm px-2 cursor-pointer rounded-md text-nowrap py-2`}
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}
       >
         {isUploading ? (
-          "Uploading..."
+          <Loader />
         ) : (
-          <div className="flex items-center gap-1">
+          <div className="flex gap-1">
             {imageUploadName === "Profile Picture" ? (
               !currentImage ? (
                 <Image
@@ -83,8 +82,13 @@ export default function CustomProfileUploader({
               )
             ) : (
               <>
-                {imageUploadName}
-                <ImageIcon />
+                <Image
+                  src="https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
+                  alt="Profile Picture"
+                  width={200}
+                  height={200}
+                  className="rounded-full"
+                ></Image>
               </>
             )}
           </div>
