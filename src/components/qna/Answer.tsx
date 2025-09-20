@@ -1,9 +1,11 @@
+"use client";
 import { ArrowDownSquareIcon, SendHorizonal } from "lucide-react";
-import React, { useState } from "react";
-import AnswerProfileWithAnswer from "./AnswerProfileWithAnswer";
+import React, { useEffect, useState } from "react";
+import Response from "./Response";
 import Image from "next/image";
 import { UserSelectType } from "../../../lib/db/schema";
 import { Button } from "../ui/button";
+import { fetchResponses } from "../../../server/helper/fetchResponses";
 
 export default function Answer({
   userRecord,
@@ -12,7 +14,22 @@ export default function Answer({
   userRecord: UserSelectType;
   questionId: string;
 }) {
+  const [type, setType] = useState<"answer" | "comment" | undefined>("comment");
+  const [comment, setComment] = useState<string>("");
+  const [response, setResponse] = useState<any[]>([]);
   const [answer, setAnswer] = useState<string>("");
+  useEffect(() => {
+    const loadResponses = async () => {
+      const res = await fetchResponses(questionId);
+      if (!res) return;
+      setType(res.type);
+      setResponse(res.data);
+    };
+    loadResponses();
+  }, [questionId]);
+
+  console.log("user Image: ", userRecord.image);
+
   return (
     <div className=" border-[#ffffff] rounded-2xl grow">
       <div className="mt-4 flex">
@@ -54,8 +71,16 @@ export default function Answer({
           </Button>
         </form>
       </div>
-      <div id="answers" className="">
-        <AnswerProfileWithAnswer />
+      <div id="answers" className="flex flex-col gap-4">
+        {response.map((res) => (
+          <Response
+            key={res.id}
+            type={res.type}
+            body={res.body}
+            user={res.user}
+            createdAt={res.createdAt}
+          />
+        ))}
       </div>
     </div>
   );

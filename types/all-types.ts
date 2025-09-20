@@ -3,7 +3,9 @@ import {
   CommentSelectType,
   LikeSelectType,
   QuestionSelectType,
+  RepostVideosSelectType,
   UserSelectType,
+  VideoSelecType,
 } from "../lib/db/schema";
 
 export type AdvocateProfileWithUser = AdvocateProfileSelectType & {
@@ -28,4 +30,8 @@ export type QuestionWithUserLikeCommentCount = QuestionSelectType & {
   comments: {
     count: number;
   };
+};
+
+export type VideoWithRepost = VideoSelecType & {
+  repostVideos: RepostVideosSelectType[];
 };

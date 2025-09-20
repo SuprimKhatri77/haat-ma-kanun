@@ -1,6 +1,7 @@
+"use client";
 import { ArrowDownSquareIcon, SendHorizonal } from "lucide-react";
 import React, { useActionState, useEffect, useState } from "react";
-import AnswerProfileWithAnswer from "./AnswerProfileWithAnswer";
+import Response from "./Response";
 import Image from "next/image";
 import { UserSelectType } from "../../../lib/db/schema";
 import { Button } from "../ui/button";
@@ -10,6 +11,7 @@ import {
 } from "../../../server/actions/comment/comment";
 import Loader from "../Loader";
 import { toast } from "sonner";
+import { fetchResponses } from "../../../server/helper/fetchResponses";
 
 export default function CommentPage({
   userRecord,
@@ -28,7 +30,19 @@ export default function CommentPage({
     CommentFormState,
     FormData
   >(commentAction, initialState);
+  const [type, setType] = useState<"answer" | "comment" | undefined>("comment");
   const [comment, setComment] = useState<string>("");
+  const [response, setResponse] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadResponses = async () => {
+      const res = await fetchResponses(questionId);
+      if (!res) return;
+      setType(res.type);
+      setResponse(res.data);
+    };
+    loadResponses();
+  }, [questionId]);
 
   useEffect(() => {
     if (state.success && state.message) {
@@ -84,7 +98,15 @@ export default function CommentPage({
         </form>
       </div>
       <div id="answers" className="">
-        <AnswerProfileWithAnswer />
+        {response.map((res) => (
+          <Response
+            key={res.id}
+            type={res.type}
+            body={res.body}
+            user={res.user}
+            createdAt={res.createdAt}
+          />
+        ))}
       </div>
     </div>
   );

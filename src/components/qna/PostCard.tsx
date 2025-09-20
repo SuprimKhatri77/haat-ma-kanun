@@ -14,7 +14,7 @@ import {
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { likeAction, LikeFormState } from "../../../server/actions/like/like";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { UserSelectType } from "../../../lib/db/schema";
 import CommentPage from "./Comment";
 
@@ -55,8 +55,8 @@ const PostCard = ({
     // console.log("questions", questions),
     questions.length > 0 &&
     questions.map((question) => {
+      console.log("question", question.comments);
       const isLiked = hasLiked(currentUserId, question.id);
-      // debugger;
 
       return (
         <div
@@ -66,9 +66,8 @@ const PostCard = ({
           <div className="flex items-center mb-3">
             <Image
               src={
-                question.user.image
-                  ? question.user.image
-                  : "https://github.com/shadcn.png"
+                question.user.image ||
+                "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
               }
               alt="Profile Picture"
               width={40}

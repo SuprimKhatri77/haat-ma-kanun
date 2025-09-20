@@ -7,6 +7,7 @@ import {
   pgEnum,
   uuid,
   integer,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const roleEnum = pgEnum("role", ["user", "advocate", "admin"]);
@@ -66,6 +67,7 @@ export const advocateVerifiedEnum = pgEnum("advocate_verified", [
   "verified",
   "rejected",
 ]);
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -131,7 +133,7 @@ export const verification = pgTable("verification", {
 
 export const advocateProfile = pgTable("advocate_profile", {
   id: text("user_id")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull()
     .primaryKey(),
   address: text("address"),
@@ -148,7 +150,7 @@ export const advocateProfile = pgTable("advocate_profile", {
 export const question = pgTable("questions", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   userId: text("user_id")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   title: text("title"),
   description: text("description"),
@@ -163,10 +165,10 @@ export const question = pgTable("questions", {
 export const likes = pgTable("likes", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   questionId: uuid("question_id")
-    .references(() => question.id)
+    .references(() => question.id, { onDelete: "cascade" })
     .notNull(),
   userId: text("user_id")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -174,11 +176,11 @@ export const likes = pgTable("likes", {
 export const comments = pgTable("comments", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   questionId: uuid("question_id")
-    .references(() => question.id)
+    .references(() => question.id, { onDelete: "cascade" })
     .notNull(),
   body: text("body"),
   userId: text("user_id")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -188,14 +190,47 @@ export const answers = pgTable("answers", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   body: text("body"),
   questionId: uuid("question_id")
-    .references(() => question.id)
+    .references(() => question.id, { onDelete: "cascade" })
     .notNull(),
   advocateId: text("advocate_id")
-    .references(() => advocateProfile.id)
+    .references(() => advocateProfile.id, { onDelete: "cascade" })
     .notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const video = pgTable("video", {
+  id: uuid("id").defaultRandom().primaryKey().notNull(),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  title: text("title"),
+  videoUrl: text("video_url"),
+  body: text("body"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const repostVideos = pgTable(
+  "repost_videos",
+  {
+    id: uuid("id").defaultRandom().primaryKey().notNull(),
+    videoId: uuid("video_id").references(() => video.id, {
+      onDelete: "cascade",
+    }),
+    userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [uniqueIndex("repost_unique").on(table.videoId, table.userId)]
+);
+
+export const videoRelation = relations(video, ({ one, many }) => ({
+  repostVideos: many(repostVideos),
+}));
+export const repostVideoRelation = relations(repostVideos, ({ one }) => ({
+  video: one(video, {
+    fields: [repostVideos.videoId],
+    references: [video.id],
+  }),
+}));
 
 export const advocateUserRelation = relations(advocateProfile, ({ one }) => ({
   user: one(user, {
@@ -233,6 +268,21 @@ export const commentRelation = relations(comments, ({ one }) => ({
     fields: [comments.questionId],
     references: [question.id],
   }),
+  user: one(user, {
+    fields: [comments.userId],
+    references: [user.id],
+  }),
+}));
+
+export const answerRelation = relations(answers, ({ one, many }) => ({
+  question: one(question, {
+    fields: [answers.questionId],
+    references: [question.id],
+  }),
+  advocateProfile: one(advocateProfile, {
+    fields: [answers.advocateId],
+    references: [advocateProfile.id],
+  }),
 }));
 
 export type AdvocateProfileInsertType = InferInsertModel<
@@ -249,3 +299,7 @@ export type LikeSelectType = InferSelectModel<typeof likes>;
 export type LikeInsertType = InferInsertModel<typeof likes>;
 export type CommentSelectType = InferSelectModel<typeof comments>;
 export type CommentInsertType = InferSelectModel<typeof comments>;
+export type VideoSelecType = InferSelectModel<typeof video>;
+export type VideoInsertType = InferInsertModel<typeof video>;
+export type RepostVideosInsertType = InferInsertModel<typeof repostVideos>;
+export type RepostVideosSelectType = InferSelectModel<typeof repostVideos>;
