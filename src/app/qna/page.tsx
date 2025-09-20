@@ -41,6 +41,7 @@ export default async function page() {
   //
   return (
     <QnaPage
+      userRecord={userRecord}
       questions={questions}
       // questions={questionsWithLikeCommentCount}
       currentUserId={userRecord.id}

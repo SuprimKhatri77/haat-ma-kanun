@@ -14,16 +14,20 @@ import {
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { likeAction, LikeFormState } from "../../../server/actions/like/like";
-import { useActionState, useState } from "react"; // ADD useState here
+import { useActionState, useState } from "react";
+import { UserSelectType } from "../../../lib/db/schema";
+import CommentPage from "./Comment";
 
 const PostCard = ({
   questions,
   qsnWithLike,
   currentUserId,
+  userRecord,
 }: {
   questions: QuestionWithUserLikeCommentCount[];
   qsnWithLike: QuestionWithUserLikeAndComment[];
   currentUserId: string;
+  userRecord: UserSelectType;
 }) => {
   const initialState: LikeFormState = {
     errors: {},
@@ -37,6 +41,7 @@ const PostCard = ({
   >(likeAction, initialState);
 
   const [clickedQuestionId, setClickedQuestionId] = useState<string>("");
+  const [showComments, setShowComments] = useState<string | null>(null);
 
   const hasLiked = (userId: string, questionId: string) => {
     return qsnWithLike.some((qsnWL) =>
@@ -94,7 +99,7 @@ const PostCard = ({
                 <form action={formAction}>
                   <Button
                     type="submit"
-                    onClick={() => setClickedQuestionId(question.id)} // ADD THIS onClick
+                    onClick={() => setClickedQuestionId(question.id)}
                     className="bg-transparent hover:bg-transparent hover:scale-115 cursor-pointer"
                   >
                     {isPending &&
@@ -123,7 +128,14 @@ const PostCard = ({
                 </form>
               </div>
 
-              <Button className="bg-transparent">
+              <Button
+                className="bg-transparent hover:bg-transparent"
+                onClick={() =>
+                  setShowComments(
+                    showComments === question.id ? null : question.id
+                  )
+                }
+              >
                 {question.comments.count} Comments
                 <div>
                   <MessageCircleIcon />
@@ -139,13 +151,7 @@ const PostCard = ({
                     Answer
                   </Button>
                 )}
-              {question.user.role === "user" &&
-                question.userId !== currentUserId && (
-                  <Button>
-                    <MessageSquareTextIcon className="mr-2 h-4 w-4" />
-                    Comment
-                  </Button>
-                )}
+
               {question.userId !== currentUserId && (
                 <Button>
                   <MessageSquareWarningIcon className="mr-2 h-4 w-4" />
@@ -154,7 +160,12 @@ const PostCard = ({
               )}
             </div>
           </div>
-          {/* <Answer /> */}
+          {showComments === question.id && userRecord.role === "advocate" && (
+            <Answer userRecord={userRecord} questionId={question.id} />
+          )}
+          {showComments === question.id && userRecord.role === "user" && (
+            <CommentPage userRecord={userRecord} questionId={question.id} />
+          )}
         </div>
       );
     })
