@@ -1,11 +1,16 @@
 "use client";
 import { ArrowDownSquareIcon, SendHorizonal } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import Response from "./Response";
 import Image from "next/image";
 import { UserSelectType } from "../../../lib/db/schema";
 import { Button } from "../ui/button";
 import { fetchResponses } from "../../../server/helper/fetchResponses";
+import {
+  answerAction,
+  AnswerFormState,
+} from "../../../server/actions/answer/answer";
+import Loader from "../Loader";
 
 export default function Answer({
   userRecord,
@@ -28,8 +33,16 @@ export default function Answer({
     loadResponses();
   }, [questionId]);
 
-  console.log("user Image: ", userRecord.image);
-
+  const initialState: AnswerFormState = {
+    errors: {},
+    message: "",
+    success: false,
+    timestamp: new Date(),
+  };
+  const [state, formAction, isPending] = useActionState<
+    AnswerFormState,
+    FormData
+  >(answerAction, initialState);
   return (
     <div className=" border-[#ffffff] rounded-2xl grow">
       <div className="mt-4 flex">
@@ -55,20 +68,24 @@ export default function Answer({
             className="rounded-full mr-3 mt-1 size-8"
           />
         )}
-        <form className="w-full relative" action="">
+        <form className="w-full relative" action={formAction}>
           <input
             type="text"
             onChange={(e) => setAnswer(e.target.value)}
             placeholder="Comment"
             className="placeholder:pl-4 py-2 px-2 w-full placeholder:bg-transparent border-1 rounded-2xl text-[#dadada] focus:outline-none"
+            name="body"
           />
           <Button
             variant="default"
             type="submit"
             className="absolute top-1 right-5 cursor-pointer hover:scale-120 transition-all duration-300 bg-transparent hover:bg-transparent inline"
+            disabled={isPending || !userRecord.id || !questionId}
           >
-            <SendHorizonal size={20} />
+            {isPending ? <Loader /> : <SendHorizonal size={20} />}
           </Button>
+          <input type="hidden" name="advocateId" value={userRecord.id} />
+          <input type="hidden" name="questionId" value={questionId} />
         </form>
       </div>
       <div id="answers" className="flex flex-col gap-4">

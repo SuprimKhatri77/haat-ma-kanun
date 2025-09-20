@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { MessageSquareIcon, Send } from "lucide-react";
 
 export default function ChatBot() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
     { sender: "user" | "ai"; text: string }[]
   >([]);
@@ -112,7 +112,7 @@ export default function ChatBot() {
             />
             <button
               onClick={sendMessage}
-              className="p-2 text-white hover:text-gray-300"
+              className="p-2 text-white hover:text-gray-300 cursor-pointer"
             >
               <Send size={18} />
             </button>

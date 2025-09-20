@@ -6,7 +6,7 @@ import { db } from "../../../lib/db";
 import { advocateProfile, user } from "../../../lib/db/schema";
 import { eq } from "drizzle-orm";
 
-export default async function Waitlist() {
+export default async function Rejected() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -37,15 +37,15 @@ export default async function Waitlist() {
     if (!advocateRecord) {
       return redirect("/onboarding/advocate");
     }
-    if (advocateRecord.status === "rejected") {
-      return redirect("/rejected");
+    if (advocateRecord.status === "pending") {
+      return redirect("/pending");
     }
     if (advocateRecord.status === "verified") {
       return redirect("/qna");
     }
     return (
       <div className="mt-70 flex flex-col items-center justify-center gap-4">
-        <h1>Please wailt till one our Admin verfies your profile</h1>
+        <h1>Sorry your advocate profile is rejected!</h1>
         <Logout />
       </div>
     );

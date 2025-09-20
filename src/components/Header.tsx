@@ -1,24 +1,25 @@
 "use client";
 import Link from "next/link";
-// import { Logo } from "@/components/logo";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { UserSelectType } from "../../lib/db/schema";
+import Logout from "./LogoutButton";
 
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
   { name: "Complains", href: "complain" },
-  { name: "My Queries", href: "myQueries" },
+  { name: "My Queries", href: "myQueries", role: "user", authOnly: true }, // only for logged-in users with role=user
 ];
 
-export const HeroHeader = () => {
+export const HeroHeader = ({ userRecord }: { userRecord?: UserSelectType }) => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
+
   const handleClick = () => {
     setMenuState(!menuState);
   };
@@ -30,6 +31,14 @@ export const HeroHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // filter items based on auth + role
+  const filteredItems = menuItems.filter((item) => {
+    if (item.authOnly && !userRecord) return false; // needs login
+    if (item.role && item.role !== userRecord?.role) return false; // role mismatch
+    return true;
+  });
+
   return (
     <header className="fixed top-0 z-50 w-full bg-black-70 text-white px-8 rounded-[40px] ">
       <nav data-state={menuState && "active"} className="w-full px-2">
@@ -41,6 +50,7 @@ export const HeroHeader = () => {
           )}
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+            {/* Logo + Mobile menu toggle */}
             <div className="flex w-full justify-between lg:w-auto">
               <Link href="/" aria-label="go home" className="">
                 <Image
@@ -54,7 +64,7 @@ export const HeroHeader = () => {
 
               <button
                 onClick={() => setMenuState(!menuState)}
-                aria-label={menuState == true ? "Close Menu" : "Open Menu"}
+                aria-label={menuState ? "Close Menu" : "Open Menu"}
                 className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
               >
                 <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
@@ -62,9 +72,10 @@ export const HeroHeader = () => {
               </button>
             </div>
 
+            {/* Desktop nav */}
             <div className="absolute inset-0 m-auto hidden size-fit lg:block">
               <ul className="flex gap-8 text-sm">
-                {menuItems.map((item, index) => (
+                {filteredItems.map((item, index) => (
                   <li key={index}>
                     <Link
                       href={item.href}
@@ -81,10 +92,12 @@ export const HeroHeader = () => {
               </ul>
             </div>
 
+            {/* Mobile nav + Auth buttons */}
             <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+              {/* Mobile nav list */}
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
-                  {menuItems.map((item, index) => (
+                  {filteredItems.map((item, index) => (
                     <li key={index} onClick={handleClick}>
                       <Link
                         href={item.href}
@@ -96,35 +109,37 @@ export const HeroHeader = () => {
                   ))}
                 </ul>
               </div>
+
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit text-black">
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="#">
-                    <span>Login</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="#">
-                    <span>Sign Up</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
-                >
-                  <Link href="#">
-                    <span>Get Started</span>
-                  </Link>
-                </Button>
+                {!userRecord ? (
+                  <>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className={cn(isScrolled && "lg:hidden")}
+                    >
+                      <Link href="/login">
+                        <span>Login</span>
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="sm"
+                      className={cn(isScrolled && "lg:hidden")}
+                    >
+                      <Link href="/signup">
+                        <span>Sign Up</span>
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild size="sm">
+                      <Logout />
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
