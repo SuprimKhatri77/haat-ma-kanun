@@ -101,7 +101,8 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
       }
       await upsertStreamUser({
         id: userRecord.id,
-        name: `${firstName} ${lastName}`,
+        name: userRecord.name,
+        image: userRecord.image,
         role: "user",
         email: normalizedEmail,
       });
