@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import {
@@ -8,6 +9,11 @@ import {
   MessageSquareWarningIcon,
 } from "lucide-react";
 import Answer from "../qna/Answer";
+import {
+  QuestionWithUserLike,
+  QuestionWithUserLikeCommentCount,
+} from "../../../types/all-types";
+import { useState } from "react";
 
 export interface Question {
   id: string; // uuid
@@ -55,82 +61,90 @@ export interface Question {
   createdAt: Date;
 }
 
-export default function MyQuery() {
-  return (
-    <div className="shadow-md rounded-lg p-4 mb-4 border stroke-1 stroke-white text-[#e1e1e1] max-w-[800px] w-full mx-auto">
-      {/* Header: User Info and Timestamp */}
-      <div className="flex items-center mb-3">
-        <Image
-          //   src={user.profilePicture}
-          src={"https://github.com/shadcn.png"}
-          alt={"Profile Picture"}
-          width={40}
-          height={40}
-          className="rounded-full mr-3"
-        />
-
-        <div>
-          <p className="font-semibold">
-            {/* {user.name} */}
-            Shadcn
-          </p>
-          <p className="text-sm">{/* {timestamp} */}1 day ago</p>
-        </div>
-      </div>
-
-      {/* Post Content */}
-      <p className=" mb-3">{/* {content} */}</p>
-      {/* {imageUrl && (
-        <div className="mb-3">
+export default function MyQuery({
+  questions,
+}: {
+  questions: QuestionWithUserLikeCommentCount[];
+}) {
+  const [openAnswer, setOpenAnswer] = useState(false);
+  return questions.map((question) => {
+    return (
+      <div
+        key={question.id}
+        className="shadow-md rounded-lg p-4 mb-4 border stroke-1 stroke-white text-[#e1e1e1] max-w-[800px] w-full mx-auto"
+      >
+        {/* Header: User Info and Timestamp */}
+        <div className="flex items-center mb-3">
           <Image
-            // src={imageUrl}
+            // src={user.profilePicture}
             src={"https://github.com/shadcn.png"}
-            alt="Post Image"
-            width={600} // Adjust as needed
-            height={400} // Adjust as needed
-            layout="responsive"
-            className="rounded-md"
+            alt={"Profile Picture"}
+            width={40}
+            height={40}
+            className="rounded-full mr-3"
           />
-        </div>
-      )} */}
-      <div id="Body">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil aperiam
-        nostrum impedit. Eveniet non esse sequi voluptas aspernatur itaque rem!
-      </div>
 
-      {/* Interaction Buttons (simplified) */}
-      <div className="flex justify-between text-sm mt-3">
-        <div className="flex gap-2 mt-1">
-          <Button className="bg-transparent">
-            {/* {likes} */}0 Likes
-            <div>
-              <Heart />
-            </div>
-          </Button>
-          <Button>
-            <MailQuestionMarkIcon className="mr-2 h-4 w-4" />
-            Answer
-          </Button>
-          <Button>
-            0 Comments
-            <div>
-              <MessageCircleIcon />
-            </div>
-          </Button>
+          <div>
+            <p className="font-semibold">{question.user.name}</p>
+            <p className="text-sm">
+              {question.createdAt?.toLocaleDateString()}
+            </p>
+          </div>
         </div>
+
+        {/* Post Content */}
+        <p className=" mb-3">{/* {content} */}</p>
+        {question.user.image && (
+          <div className="mb-3 flex items-center justify-center">
+            <Image
+              src={question.user.image}
+              // src={"https://github.com/shadcn.png"}
+              alt="Post Image"
+              width={200} // Adjust as needed
+              height={200} // Adjust as needed
+              layout="responsive"
+              className="rounded-md max-w-[400px] w-full max-h-[200px]"
+            />
+          </div>
+        )}
+        <div id="Body">{question.description}</div>
+
+        {/* Interaction Buttons (simplified) */}
+        <div className="flex justify-between text-sm mt-3">
+          <div className="flex gap-2 mt-1">
+            <Button className="bg-transparent">
+              {question.likes.count} Likes
+              <div>
+                <Heart />
+              </div>
+            </Button>
+            <Button onClick={() => setOpenAnswer(!openAnswer)}>
+              <MailQuestionMarkIcon className="mr-2 h-4 w-4" />
+              Answer
+            </Button>
+            <Button>
+              0 Comments
+              <div>
+                <MessageCircleIcon />
+              </div>
+            </Button>
+          </div>
+        </div>
+        {/* answers list */}
+        {openAnswer && (
+          <div className="mt-4 flex">
+            <Image
+              //  src={user.profilePicture}
+              src={"https://github.com/shadcn.png"}
+              alt={"Profile Picture"}
+              width={20}
+              height={20}
+              className="rounded-full mr-3 mt-1 size-8"
+            />{" "}
+            <Answer />
+          </div>
+        )}
       </div>
-      {/* answers list */}
-      <div className="mt-4 flex">
-        <Image
-          //  src={user.profilePicture}
-          src={"https://github.com/shadcn.png"}
-          alt={"Profile Picture"}
-          width={20}
-          height={20}
-          className="rounded-full mr-3 mt-1 size-8"
-        />{" "}
-        <Answer />
-      </div>
-    </div>
-  );
+    );
+  });
 }

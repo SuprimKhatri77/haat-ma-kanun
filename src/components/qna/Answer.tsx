@@ -8,7 +8,7 @@ export default function Answer() {
       <input
         type="text"
         placeholder="Search"
-        className="placeholder:pl-4 py-2 px-2 w-full placeholder:bg-transparent border-1  rounded-2xl text-[#dadada] focus:outline-none"
+        className="placeholder:pl-4 py-2 pl-4 px-2 w-full placeholder:bg-transparent border-1  rounded-2xl text-[#dadada] focus:outline-none"
       />
       <div id="headings" className="flex justify-between px-4 mt-3">
         <span>Answers</span>
