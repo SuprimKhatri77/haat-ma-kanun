@@ -14,7 +14,7 @@ import {
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { likeAction, LikeFormState } from "../../../server/actions/like/like";
-import { useActionState } from "react";
+import { useActionState, useState } from "react"; // ADD useState here
 
 const PostCard = ({
   questions,
@@ -25,6 +25,19 @@ const PostCard = ({
   qsnWithLike: QuestionWithUserLikeAndComment[];
   currentUserId: string;
 }) => {
+  const initialState: LikeFormState = {
+    errors: {},
+    message: "",
+    timestamp: new Date(),
+    success: false,
+  };
+  const [state, formAction, isPending] = useActionState<
+    LikeFormState,
+    FormData
+  >(likeAction, initialState);
+
+  const [clickedQuestionId, setClickedQuestionId] = useState<string>("");
+
   const hasLiked = (userId: string, questionId: string) => {
     return qsnWithLike.some((qsnWL) =>
       qsnWL.likes.some(
@@ -32,18 +45,6 @@ const PostCard = ({
       )
     );
   };
-
-  const initialState: LikeFormState = {
-    errors: {},
-    message: "",
-    timestamp: new Date(),
-    success: false,
-  };
-
-  const [state, formAction, isPending] = useActionState<
-    LikeFormState,
-    FormData
-  >(likeAction, initialState);
 
   return (
     questions.length > 0 &&
@@ -83,9 +84,9 @@ const PostCard = ({
             <div className="flex gap-2 mt-1">
               <div className="bg-transparent flex items-center gap-1">
                 <p>
-                  {isLiked && isPending
+                  {isLiked && isPending && clickedQuestionId === question.id
                     ? question.likes.count - 1
-                    : !isLiked && isPending
+                    : !isLiked && isPending && clickedQuestionId === question.id
                     ? question.likes.count + 1
                     : question.likes.count}
                 </p>
@@ -93,11 +94,15 @@ const PostCard = ({
                 <form action={formAction}>
                   <Button
                     type="submit"
+                    onClick={() => setClickedQuestionId(question.id)} // ADD THIS onClick
                     className="bg-transparent hover:bg-transparent hover:scale-115 cursor-pointer"
                   >
-                    {isPending ? (
+                    {isPending &&
+                    clickedQuestionId === question.id &&
+                    !isLiked ? (
                       <Heart className="fill-red-500" />
-                    ) : isLiked ? (
+                    ) : isLiked &&
+                      !(isPending && clickedQuestionId === question.id) ? (
                       <Heart className="fill-red-500" />
                     ) : (
                       <Heart />
@@ -149,7 +154,7 @@ const PostCard = ({
               )}
             </div>
           </div>
-          <Answer />
+          {/* <Answer /> */}
         </div>
       );
     })

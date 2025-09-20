@@ -11,6 +11,7 @@ import { auth } from "../../../server/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { user } from "../../../lib/db/schema";
+import QnaPage from "@/components/QNA";
 
 export default async function page() {
   const session = await auth.api.getSession({
@@ -35,29 +36,14 @@ export default async function page() {
       },
     });
   if (questions.length === 0) {
-    return [];
+    return <h1>No questions</h1>;
   }
-  const questionsWithLikeCommentCount: QuestionWithUserLikeCommentCount[] =
-    questions.map((q) => ({
-      ...q,
-      likes: {
-        count: q.likes.length,
-      },
-      comments: {
-        count: q.comments.length,
-      },
-    }));
-
+  //
   return (
-    <main className="mt-20">
-      <QnaHeader />
-      <div className="mt-6">
-        <PostCard
-          questions={questionsWithLikeCommentCount}
-          qsnWithLike={questions}
-          currentUserId={userRecord.id}
-        />
-      </div>
-    </main>
+    <QnaPage
+      questions={questions}
+      // questions={questionsWithLikeCommentCount}
+      currentUserId={userRecord.id}
+    />
   );
 }
