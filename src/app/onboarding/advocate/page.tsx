@@ -28,7 +28,7 @@ import CustomProfileUploader from "@/components/CustomImageUploadButton";
 import Loader from "@/components/Loader";
 import { advocateTypeEnum } from "../../../../lib/db/schema";
 
-type MentorOnboardingFormProps = {
+type MentorOnboardingFormProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string;
   currentUserId?: string;
 };

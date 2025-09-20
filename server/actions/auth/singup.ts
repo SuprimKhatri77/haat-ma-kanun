@@ -10,6 +10,8 @@ import { timestamp } from "drizzle-orm/gel-core";
 import { APIError } from "better-auth";
 import { upsertStreamUser } from "@/config/stream";
 import { error } from "better-auth/api";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export type SignupFormState = {
   errors?: {
@@ -80,17 +82,26 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
       .where(eq(user.email, email));
 
     try {
+      const session = await auth.api.getSession({
+        headers: await headers(),
+      });
+      if (!session) {
+        return redirect("/login");
+      }
+      const [userRecord] = await db
+        .select()
+        .from(user)
+        .where(eq(user.id, session.user.id));
+      if (!userRecord) {
+        return redirect("/sign-up");
+      }
       await upsertStreamUser({
-        id: normalzedEmail,
+        id: userRecord.id,
         name: `${firstName} ${lastName}`,
-        role,
+        role: "user",
         email: normalzedEmail,
       });
-      return {
-        error: error,
-        message: `Successfully user upserted in stream for ${firstName}`,
-        success: true,
-      };
+      console.log(`Successfully user upserted in stream for ${firstName}`);
     } catch (error) {
       console.error("Stream upsert error:", error);
       return {
@@ -99,7 +110,6 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
         success: false,
       };
     }
-
     return {
       message: "Signed up successfully!",
       success: true,

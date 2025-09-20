@@ -26,12 +26,16 @@ export default function SignInSocial({
 }) {
   return (
     <Button
-      onClick={async () =>
-        await authClient.signIn.social({
-          provider,
-          callbackURL: "/qna",
-        })
-      }
+      onClick={async () => {
+        try {
+          await authClient.signIn.social({
+            provider,
+            callbackURL: "/qna",
+          });
+        } catch (err) {
+          console.error("Social sign-in error:", err);
+        }
+      }}
       type="button"
       variant="outline"
     >

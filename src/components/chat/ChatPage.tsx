@@ -17,6 +17,7 @@ import { StreamChat, Channel } from "stream-chat";
 import ChatLoader from "@/components/ChatLoader";
 import CallButton from "@/components/CallButton";
 import { UserSelectType } from "../../../lib/db/schema";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 const STREAM_API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
 

@@ -201,3 +201,4 @@ export type AdvocateProfileInsertType = InferInsertModel<
 export type AdvocateProfileSelectType = InferSelectModel<
   typeof advocateProfile
 >;
+export type UserSelectType = InferSelectModel<typeof user>;

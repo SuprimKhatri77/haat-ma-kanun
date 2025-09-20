@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../../lib/db";
 import { nextCookies } from "better-auth/next-js";
+// import { upsertStreamUser } from "@/config/stream";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -25,4 +26,40 @@ export const auth = betterAuth({
     },
   },
   plugins: [nextCookies()],
+//   events: {
+//     async userCreated({
+//       user,
+//     }: {
+//       user: { id: string; name?: string | null; email?: string | null };
+//     }) {
+//       console.log("New Better Auth user:", user);
+
+//       // Upsert into Stream Chat
+//       await upsertStreamUser({
+//         id: user.id,
+//         name: user.name,
+//         role: "user",
+//         email: user.email,
+//       });
+//       console.log(`Successfully user upserted in stream for ${user.name}`);
+//     },
+//     async sessionCreated({
+//       user,
+//     }: {
+//       user: { id: string; name?: string | null; email?: string | null };
+//     }) {
+//       console.log("🔑 Session created for user:", user);
+
+//       await upsertStreamUser({
+//         id: user.id,
+//         name: user.name ?? "Anonymous",
+//         role: "user",
+//         email: user.email ?? "",
+//       });
+
+//       console.log(
+//         `✅ Successfully upserted user in Stream (login): ${user.name}`
+//       );
+//     },
+//   },
 });

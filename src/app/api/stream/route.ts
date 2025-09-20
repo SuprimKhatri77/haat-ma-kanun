@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server";
 import { generateStreamToken } from "@/config/stream";
 
@@ -9,7 +10,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Missing userId" }, { status: 400 });
     }
 
-    const token = generateStreamToken(userId);
+    const safeId = userId.toString().replace(/[^a-zA-Z0-9@_-]/g, "_");
+    const token = generateStreamToken(safeId);
 
     return NextResponse.json({ token });
   } catch (error) {
