@@ -1,4 +1,23 @@
+"use client";
+import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { AnimatedNumber } from "../../components/motion-primitives/animated-number";
+import { useInView } from "framer-motion";
+
 export default function StatsSection() {
+  const [legalExperts, setLegalExperts] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
+  const [casesSolved, setCasesSolved] = useState(0);
+
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+  if (isInView && activeUsers === 0) {
+    setLegalExperts(1200);
+    setActiveUsers(2500);
+    setCasesSolved(500);
+  }
+
+  useEffect(() => {}, []);
   return (
     <section className="py-12 md:py-20">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
@@ -11,17 +30,48 @@ export default function StatsSection() {
           </p>
         </div>
 
-        <div className="grid gap-12 divide-y *:text-center md:grid-cols-3 md:gap-2 md:divide-x md:divide-y-0">
+        <div
+          ref={ref}
+          className="grid gap-12 divide-y *:text-center md:grid-cols-3 md:gap-2 md:divide-x md:divide-y-0"
+        >
           <div className="space-y-4">
-            <div className="text-5xl font-bold">+1200</div>
+            <div className="text-5xl font-bold">
+              {" "}
+              <AnimatedNumber
+                className="inline-flex items-center font-mono text-2xl"
+                springOptions={{
+                  bounce: 0,
+                  duration: 2000,
+                }}
+                value={legalExperts}
+              />
+            </div>
             <p>Legal Experts</p>
           </div>
           <div className="space-y-4">
-            <div className="text-5xl font-bold">25K</div>
+            <div className="text-5xl font-bold">
+              <AnimatedNumber
+                className="inline-flex items-center font-mono text-2xl"
+                springOptions={{
+                  bounce: 0,
+                  duration: 2000,
+                }}
+                value={activeUsers}
+              />
+            </div>
             <p>Active Users</p>
           </div>
           <div className="space-y-4">
-            <div className="text-5xl font-bold">+500</div>
+            <div className="text-5xl font-bold">
+              <AnimatedNumber
+                className="inline-flex items-center font-mono text-2xl"
+                springOptions={{
+                  bounce: 0,
+                  duration: 2000,
+                }}
+                value={casesSolved}
+              />
+            </div>
             <p>Cases Solved</p>
           </div>
         </div>

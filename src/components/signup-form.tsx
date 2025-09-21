@@ -78,7 +78,7 @@ export default function SignUpPage() {
                 !openGoogle ? "" : "bg-white text-black"
               } text-base cursor-pointer text-center py-2 px-3 hover:text-white flex items-center justify-center gap-4`}
             >
-              Student <ArrowDown />
+              User <ArrowDown />
             </Button>
             <Button
               type="button"

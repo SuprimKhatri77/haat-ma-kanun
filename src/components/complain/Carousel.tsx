@@ -8,17 +8,38 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 export function CarouselComplain() {
+  const images = [
+    {
+      src: "/carousel/image1.jpeg",
+      alt: "image1",
+    },
+    {
+      src: "/carousel/image2.jpeg",
+      alt: "image2",
+    },
+    {
+      src: "/carousel/image3.jpeg",
+      alt: "image3",
+    },
+  ];
   return (
     <Carousel className="w-full max-w-xs">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {images.map((image, index) => (
           <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6 text-black">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
+            <div className="">
+              <Card className="bg-transparent">
+                <CardContent className="flex aspect-square items-center justify-center  text-black">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={220}
+                    height={390}
+                    className="object-cover w-full h-full object-center"
+                  />
                 </CardContent>
               </Card>
             </div>
