@@ -19,11 +19,11 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
         Citizens Complaints
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 max-w-[800px] gap-6 justify-items-center align-middle m-auto md:grid-cols-2">
         {videos.map((video) => (
           <Card
             key={video.id}
-            className="bg-neutral-900 border-neutral-800 max-w-[400px] border-2 rounded-2xl"
+            className="bg-neutral-900 flex justify-between border-neutral-800 min-w-[350px] border-2 rounded-2xl"
           >
             <CardHeader className="flex justify-between">
               <CardTitle className="text-lg text-white">

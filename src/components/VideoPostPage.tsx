@@ -50,7 +50,7 @@ export default function PostVideoPage({ userId }: { userId: string }) {
 
   return (
     <div className="min-h-screen bg-black text-white py-8 px-4 mt-20 min-w-full">
-      <div className="max-w-4xl mx-auto flex flex-col items-center w-full bg-[#eaeaea] rounded-2xl">
+      <div className="max-w-4xl mx-auto flex flex-col items-center w-full bg-gray-300 rounded-2xl">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2 text-center py-2">
@@ -64,7 +64,7 @@ export default function PostVideoPage({ userId }: { userId: string }) {
         <div className=" w-full">
           {/* Main Upload Form */}
           <div className="lg:col-span-2">
-            <Card className="shadow-lg">
+            <Card className="shadow-lg bg-black text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Send className="h-5 w-5 text-primary" />
@@ -133,16 +133,17 @@ export default function PostVideoPage({ userId }: { userId: string }) {
                   <Button
                     type="submit"
                     disabled={!currentVideoUrl || isPending}
-                    className="w-full h-12 text-base font-semibold"
+                    variant={"ghost"}
+                    className="w-full h-12 text-base bg-white text-black font-semibold"
                   >
                     {isPending ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
                         Posting...
                       </>
                     ) : (
                       <>
-                        <Send className="h-4 w-4 mr-2" />
+                        <Send className="h-4 w-4 mr-2 text-black" />
                         Post Video
                       </>
                     )}

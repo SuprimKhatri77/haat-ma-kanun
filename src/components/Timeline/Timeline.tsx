@@ -7,7 +7,6 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 
-
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import Typography from "@mui/material/Typography";
 import { CheckSquare, Flag, Gavel, Users } from "lucide-react";

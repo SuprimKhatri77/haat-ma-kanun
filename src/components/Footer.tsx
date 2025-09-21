@@ -27,8 +27,8 @@ const links = [
 
 export default function FooterSection() {
   return (
-    <footer className="py-16 md:py-32">
-      <p className="text-white text-base text-center pb-20">
+    <footer className="py-5">
+      <p className="text-white text-base text-center pb-5">
         {"Be With Us Everywhere"}
       </p>
       <div className="mx-auto max-w-5xl px-6">
@@ -36,8 +36,8 @@ export default function FooterSection() {
           <Image
             src="/logo.png"
             alt="logo"
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             className="mx-auto"
           />
         </Link>
