@@ -48,8 +48,8 @@ export default function QnaHeader({
           <div className="border-1 border-[#ffffff] rounded-2xl">
             <input
               type="text"
-              placeholder="Search"
-              className="placeholder:pl-4 py-2 px-2 w-full placeholder:bg-transparent  rounded-2xl text-[#dadada] focus:outline-none"
+              placeholder="What's on your mind?"
+              className="placeholder:pl-4 pl-4 py-2 px-2 w-full placeholder:bg-transparent  rounded-2xl text-[#dadada] focus:outline-none"
             />
           </div>
           <div

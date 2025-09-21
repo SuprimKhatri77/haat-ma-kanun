@@ -64,7 +64,7 @@ export default function CommentPage({
             alt="Profile Picture"
             width={20}
             height={20}
-            className="rounded-full mr-3 mt-1 size-8"
+            className="rounded-full mr-3 mt-1 size-8 object-cover object-center"
           />
         ) : (
           <Image
@@ -74,7 +74,7 @@ export default function CommentPage({
             alt="Profile Picture"
             width={20}
             height={20}
-            className="rounded-full mr-3 mt-1 size-8"
+            className="rounded-full mr-3 mt-1 size-8 object-cover object-center"
           />
         )}
         <form className="w-full relative" action={formAction}>

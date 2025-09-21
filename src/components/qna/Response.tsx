@@ -27,7 +27,7 @@ export default function Response({
           alt={"Profile Picture"}
           width={20}
           height={20}
-          className="rounded-full mr-3 size-8 mb-auto"
+          className="rounded-full mr-3 size-8 mb-auto object-cover object-center"
         />
 
         <div>

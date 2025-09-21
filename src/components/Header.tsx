@@ -15,6 +15,12 @@ const menuItems = [
   { name: "Complains", href: "complain" },
   { name: "My Queries", href: "myQueries", role: "user", authOnly: true }, // only for logged-in users with role=user
 ];
+const lawyerItems = [
+  { name: "Home", href: "/" },
+  { name: "Qna", href: "qna" },
+  { name: "AreaLaw", href: "areaLaw" },
+  { name: "Complains", href: "complain" },
+];
 
 export const HeroHeader = ({ userRecord }: { userRecord?: UserSelectType }) => {
   const [menuState, setMenuState] = React.useState(false);

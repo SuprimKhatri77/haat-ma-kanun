@@ -39,6 +39,7 @@ import {
   Scale,
   Calendar,
   MapPin,
+  File,
 } from "lucide-react";
 
 type AdvocateOnboardingFormProps = {
@@ -119,7 +120,7 @@ export default function AdvocateOnboardingForm({
         </div>
       </div>
 
-      <Card className="shadow-lg border  backdrop-blur-md  bg-gradient-to-br from-gray-100 via-white to-gray-200 text-black">
+      <Card className="shadow-lg border  backdrop-blur-md  bg-gradient-to-b from-gray-400 via-[#d8d8d8] to-[#bcbcbc] text-black">
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl">Professional Information</CardTitle>
           <CardDescription className="text-base">
@@ -359,7 +360,7 @@ export default function AdvocateOnboardingForm({
               <div className="pt-6">
                 <Button
                   type="submit"
-                  className="text-black w-full hover:cursor-pointer hover:text-white h-12 text-base font-medium bg-gray-300 hover:bg-black transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="text-black  w-full hover:cursor-pointer hover:text-white h-12 text-base font-medium bg-gray-300  transition-all duration-200 shadow-lg hover:shadow-xl"
                   disabled={
                     isPending || !licenseFileUrl || !profilePhotoUrl || !sex
                   }

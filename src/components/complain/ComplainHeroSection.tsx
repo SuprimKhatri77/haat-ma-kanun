@@ -29,7 +29,7 @@ interface Hero3Props {
 }
 
 const ComplainHeroSection = ({
-  heading = "Connecting Criminals With Lawyers",
+  heading = "Exposing Criminals With Lawyers",
   description = "The best way to get a lawyer for your legal needs",
   buttons = {
     primary: {
@@ -69,7 +69,7 @@ const ComplainHeroSection = ({
   },
 }: Hero3Props) => {
   return (
-    <section className="bg-black text-white px-6 min-h-screen mx-auto pl-56">
+    <section className="bg-black text-white px-6 min-h-screen mx-auto max-w-[900px] w-full">
       <div className="container grid items-center gap-10 lg:grid-cols-2 lg:gap-20 mt-32">
         <div className="mx-auto flex flex-col items-center text-center md:ml-auto lg:max-w-3xl lg:items-start lg:text-left">
           <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl xl:text-7xl">
@@ -123,7 +123,9 @@ const ComplainHeroSection = ({
             )}
           </div>
         </div>
-        <CarouselComplain />
+        <div className="flex justify-center">
+          <CarouselComplain />
+        </div>
       </div>
     </section>
   );

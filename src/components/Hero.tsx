@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
-import { HeroHeader } from "./Header";
+// import { HeroHeader } from "./Header";
 
 const transitionVariants = {
   item: {
@@ -91,21 +91,11 @@ export default function HeroSection() {
             <div className="mx-auto max-w-7xl px-6">
               <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
                 <AnimatedGroup variants={transitionVariants}>
-                  <Link
-                    href="#link"
-                    className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
-                  >
-                    <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
-                      <div className="flex w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
-                        <span className="flex size-6">
-                          <ArrowRight className="m-auto size-3" />
-                        </span>
-                        <span className="flex size-6">
-                          <ArrowRight className="m-auto size-3" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
+                  <div className="text-black text-base cursor-default  dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border px-4 py-2 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
+                    <span className="text-base">
+                      “कानुन बुझ्नुहोस्, हरेक परिस्थितिमा सुरक्षित रहनुहोस्”
+                    </span>
+                  </div>
                 </AnimatedGroup>
 
                 <TextEffect

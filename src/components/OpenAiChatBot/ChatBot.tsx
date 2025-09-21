@@ -34,7 +34,6 @@ export default function ChatBot() {
       const data = await res.json();
 
       if (data.reply) {
-        // Add AI response
         setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
       } else {
         setMessages((prev) => [

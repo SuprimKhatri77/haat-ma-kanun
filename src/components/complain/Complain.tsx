@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ThumbsUp, Repeat, User } from "lucide-react";
+import { ThumbsUp, Repeat, User, FlagIcon } from "lucide-react";
 import { VideoWithRepost } from "../../../types/all-types";
 import { toast } from "sonner";
 
@@ -25,10 +25,12 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
             key={video.id}
             className="bg-neutral-900 border-neutral-800 max-w-[400px] border-2 rounded-2xl"
           >
-            <CardHeader>
+            <CardHeader className="flex justify-between">
               <CardTitle className="text-lg text-white">
                 {video.title}
               </CardTitle>
+              {/* put it inside tooltip */}
+              <FlagIcon className="text-white hover:text-gray-400 transition duration-300 ease-in hover:cursor-pointer" />
             </CardHeader>
             <CardContent>
               <video
