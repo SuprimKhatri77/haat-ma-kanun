@@ -11,28 +11,21 @@ import {
   AnswerFormState,
 } from "../../../server/actions/answer/answer";
 import Loader from "../Loader";
+import { toast } from "sonner";
 
 export default function Answer({
   userRecord,
   questionId,
+  onNewComment,
 }: {
   userRecord: UserSelectType;
   questionId: string;
+  onNewComment?: () => void;
 }) {
   const [type, setType] = useState<"answer" | "comment" | undefined>("comment");
   const [comment, setComment] = useState<string>("");
   const [response, setResponse] = useState<any[]>([]);
   const [answer, setAnswer] = useState<string>("");
-  useEffect(() => {
-    const loadResponses = async () => {
-      const res = await fetchResponses(questionId);
-      if (!res) return;
-      setType(res.type);
-      setResponse(res.data);
-    };
-    loadResponses();
-  }, [questionId]);
-
   const initialState: AnswerFormState = {
     errors: {},
     message: "",
@@ -43,6 +36,26 @@ export default function Answer({
     AnswerFormState,
     FormData
   >(answerAction, initialState);
+  useEffect(() => {
+    if (!state.success) return;
+    const loadResponses = async () => {
+      const res = await fetchResponses(questionId);
+      if (!res) return;
+      setType(res.type);
+      setResponse(res.data);
+    };
+    loadResponses();
+  }, [questionId, state.success]);
+
+  useEffect(() => {
+    if (state.success && state.message) {
+      toast(state.message);
+      onNewComment?.();
+    }
+    if (!state.success && state.message) {
+      toast(state.message);
+    }
+  }, [state.success, state.message, state.timestamp]);
   return (
     <div className=" border-[#ffffff] rounded-2xl grow">
       <div className="mt-4 flex">
