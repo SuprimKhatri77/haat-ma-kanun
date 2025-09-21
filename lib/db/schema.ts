@@ -205,6 +205,7 @@ export const video = pgTable("video", {
   title: text("title"),
   videoUrl: text("video_url"),
   body: text("body"),
+  location: text("location"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

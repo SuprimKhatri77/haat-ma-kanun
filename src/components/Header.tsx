@@ -13,13 +13,16 @@ const menuItems = [
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
   { name: "Complains", href: "complain" },
-  { name: "My Queries", href: "myQueries", role: "user", authOnly: true }, // only for logged-in users with role=user
+  { name: "News", href: "nepal-news" },
+
+  { name: "My Queries", href: "my-queries", role: "user", authOnly: true },
 ];
 const lawyerItems = [
   { name: "Home", href: "/" },
   { name: "Qna", href: "qna" },
   { name: "AreaLaw", href: "areaLaw" },
   { name: "Complains", href: "complain" },
+  { name: "News", href: "nepal-news" },
 ];
 
 export const HeroHeader = ({ userRecord }: { userRecord?: UserSelectType }) => {

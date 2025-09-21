@@ -14,6 +14,7 @@ export async function fetchResponses(questionId: string) {
       },
     },
     limit: 3,
+    orderBy: answers.createdAt,
   });
   if (advocateAnswers.length > 0) {
     return {
@@ -36,6 +37,7 @@ export async function fetchResponses(questionId: string) {
       user: true,
     },
     limit: 3,
+    orderBy: answers.createdAt,
   });
 
   if (normalComments.length > 0) {

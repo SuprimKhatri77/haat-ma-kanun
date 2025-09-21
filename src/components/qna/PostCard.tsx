@@ -50,6 +50,12 @@ const PostCard = ({
       )
     );
   };
+  const [commentsCount, setCommentsCount] = useState(
+    questions.reduce((acc, q) => {
+      acc[q.id] = q.comments.count;
+      return acc;
+    }, {} as Record<string, number>)
+  );
 
   return (
     // console.log("questions", questions),
@@ -138,7 +144,7 @@ const PostCard = ({
                   )
                 }
               >
-                {question.comments.count} Comments
+                {commentsCount[question.id] || 0} Comments
                 <div>
                   <MessageCircleIcon />
                 </div>
@@ -163,10 +169,28 @@ const PostCard = ({
             </div>
           </div>
           {showComments === question.id && userRecord.role === "advocate" && (
-            <Answer userRecord={userRecord} questionId={question.id} />
+            <Answer
+              userRecord={userRecord}
+              questionId={question.id}
+              onNewComment={() =>
+                setCommentsCount((prev) => ({
+                  ...prev,
+                  [question.id]: (prev[question.id] || 0) + 1,
+                }))
+              }
+            />
           )}
           {showComments === question.id && userRecord.role === "user" && (
-            <CommentPage userRecord={userRecord} questionId={question.id} />
+            <CommentPage
+              userRecord={userRecord}
+              questionId={question.id}
+              onNewComment={() =>
+                setCommentsCount((prev) => ({
+                  ...prev,
+                  [question.id]: (prev[question.id] || 0) + 1,
+                }))
+              }
+            />
           )}
         </div>
       );

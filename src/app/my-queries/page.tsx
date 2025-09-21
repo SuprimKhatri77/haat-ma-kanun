@@ -1,4 +1,4 @@
-import MyQuery from "@/components/myQueries/MyQuery";
+import MyQuery from "@/components/my-queries/page";
 import { auth } from "../../../server/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -50,7 +50,7 @@ export default async function page() {
       },
     }));
   return (
-    <main className="mt-24">
+    <main className="mt-40">
       <MyQuery questions={questionsWithLikeCommentCount} />
     </main>
   );

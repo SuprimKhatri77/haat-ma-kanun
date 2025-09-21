@@ -16,9 +16,11 @@ import { fetchResponses } from "../../../server/helper/fetchResponses";
 export default function CommentPage({
   userRecord,
   questionId,
+  onNewComment,
 }: {
   userRecord: UserSelectType;
   questionId: string;
+  onNewComment: () => void;
 }) {
   const initialState: CommentFormState = {
     errors: {},
@@ -35,6 +37,7 @@ export default function CommentPage({
   const [response, setResponse] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!state.success) return;
     const loadResponses = async () => {
       const res = await fetchResponses(questionId);
       if (!res) return;
@@ -42,10 +45,11 @@ export default function CommentPage({
       setResponse(res.data);
     };
     loadResponses();
-  }, [questionId]);
+  }, [questionId, state.success]);
 
   useEffect(() => {
     if (state.success && state.message) {
+      onNewComment?.();
       toast(state.message);
     }
     if (!state.success && state.message) {
