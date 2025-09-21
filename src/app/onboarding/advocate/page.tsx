@@ -39,6 +39,7 @@ import {
   Scale,
   Calendar,
   MapPin,
+  File,
 } from "lucide-react";
 
 type AdvocateOnboardingFormProps = {
@@ -119,7 +120,7 @@ export default function AdvocateOnboardingForm({
         </div>
       </div>
 
-      <Card className="shadow-lg border  backdrop-blur-md  bg-gradient-to-br from-gray-100 via-white to-gray-200 text-black">
+      <Card className="shadow-lg border  backdrop-blur-md  bg-gradient-to-b from-gray-400 via-[#d8d8d8] to-[#bcbcbc] text-black">
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl">Professional Information</CardTitle>
           <CardDescription className="text-base">

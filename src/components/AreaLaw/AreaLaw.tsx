@@ -117,7 +117,7 @@ const AreaLaw = () => {
           border-color: #39FF14;
         }
         .bg-gradient-to-r-neon {
-          background-image: linear-gradient(to right, #39FF14, #00BFFF);
+          background-image: linear-gradient(to left, #00Bfff, #00BFFF);
         }
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
