@@ -181,7 +181,16 @@ const PostCard = ({
             />
           )}
           {showComments === question.id && userRecord.role === "user" && (
-            <CommentPage userRecord={userRecord} questionId={question.id} />
+            <CommentPage
+              userRecord={userRecord}
+              questionId={question.id}
+              onNewComment={() =>
+                setCommentsCount((prev) => ({
+                  ...prev,
+                  [question.id]: (prev[question.id] || 0) + 1,
+                }))
+              }
+            />
           )}
         </div>
       );

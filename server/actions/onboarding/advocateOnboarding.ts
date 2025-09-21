@@ -108,7 +108,7 @@ export async function onboardingAdvocate(
   if (!validateFileds.success) {
     const tree = z.treeifyError(validateFileds.error);
     const inputData = Object.fromEntries(formData);
-    console.log("Error Tree: ", tree);
+    // console.log("Error Tree: ", tree);
     return {
       errors: {
         properties: {
