@@ -10,7 +10,6 @@ export async function GET() {
   `
   );
   const data = await res.json();
-  console.log("Data: ", data);
 
   const articles = data.results.map((article: any) => ({
     id: article.article_id,
