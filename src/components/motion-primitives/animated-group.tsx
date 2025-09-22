@@ -1,7 +1,6 @@
 "use client";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { motion, Variants } from "motion/react";
-import React from "react";
 
 export type PresetType =
   | "fade"
@@ -107,7 +106,7 @@ function AnimatedGroup({
   preset,
   as = "div",
   asChild = "div",
-}: AnimatedGroupProps) {
+}: Readonly<AnimatedGroupProps>) {
   const selectedVariants = {
     item: addDefaultVariants(preset ? presetVariants[preset] : {}),
     container: addDefaultVariants(defaultContainerVariants),
@@ -126,7 +125,7 @@ function AnimatedGroup({
       className={className}
     >
       {React.Children.map(children, (child, index) => (
-        <MotionChild key={index} variants={itemVariants}>
+        <MotionChild key={index + 1} variants={itemVariants}>
           {child}
         </MotionChild>
       ))}

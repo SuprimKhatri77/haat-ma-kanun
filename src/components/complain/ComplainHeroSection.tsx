@@ -1,4 +1,4 @@
-import { ArrowDownRight, Star, Upload } from "lucide-react";
+import { Star, Upload } from "lucide-react";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -88,7 +88,7 @@ const ComplainHeroSection = ({
           <div className="mb-12 flex w-fit flex-col items-center gap-4 sm:flex-row">
             <span className="inline-flex items-center -space-x-4">
               {reviews.avatars.map((avatar, index) => (
-                <Avatar key={index} className="size-12 border">
+                <Avatar key={index + 1} className="size-12 border">
                   <AvatarImage src={avatar.src} alt={avatar.alt} />
                 </Avatar>
               ))}
@@ -97,7 +97,7 @@ const ComplainHeroSection = ({
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, index) => (
                   <Star
-                    key={index}
+                    key={index + 1}
                     className="size-5 fill-yellow-400 text-yellow-400"
                   />
                 ))}

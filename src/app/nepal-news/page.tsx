@@ -1,9 +1,20 @@
 "use client";
 import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+
+type Article = {
+  id: string | number;
+  country?: string;
+  title: string;
+  description?: string;
+  image_url?: string;
+  pubDate?: string;
+  link: string;
+};
 
 export default function NepalLawNews() {
-  const [news, setNews] = useState<any[]>([]);
+  const [news, setNews] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,20 +32,27 @@ export default function NepalLawNews() {
   }, []);
 
   const nepaliArticles = news.filter(
-    (article: any) =>
+    (article: Article) =>
       article.country?.toLowerCase() === "np" ||
       article.title.toLowerCase().includes("nepal")
   );
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
 
-  return loading ? (
-    <div className="min-h-screen flex justify-center items-center">
-      <Loader />
-    </div>
-  ) : nepaliArticles.length === 0 ? (
-    <div className="min-h-screen flex justify-center items-center text-gray-50 dark:text-gray-300">
-      No Nepal-specific news found.
-    </div>
-  ) : (
+  if (nepaliArticles.length === 0) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-gray-50 dark:text-gray-300">
+        No Nepal-specific news found.
+      </div>
+    );
+  }
+
+  return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 p-4 mt-20">
       {nepaliArticles.map((article) => (
         <div
@@ -42,10 +60,14 @@ export default function NepalLawNews() {
           className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
         >
           {article.image_url && (
-            <img
+            <Image
               src={article.image_url}
               alt={article.title}
+              width={400}
+              height={192}
               className="w-full h-48 object-cover"
+              style={{ objectFit: "cover" }}
+              unoptimized
             />
           )}
           <div className="p-4">

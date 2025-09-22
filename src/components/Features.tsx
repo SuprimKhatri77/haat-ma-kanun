@@ -1,13 +1,7 @@
 "use client";
 import { useAOS } from "@/app/Hook/AOS";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  MapPinnedIcon,
-  Settings2,
-  Sparkles,
-  UsersRoundIcon,
-  Zap,
-} from "lucide-react";
+import { MapPinnedIcon, Sparkles, UsersRoundIcon } from "lucide-react";
 import { ReactNode } from "react";
 
 export default function Features() {

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -11,14 +10,11 @@ import { Button } from "@/components/ui/button";
 import { ThumbsUp, Repeat, User, FlagIcon } from "lucide-react";
 import { VideoWithRepost } from "../../../types/all-types";
 import { toast } from "sonner";
-import { UserSelectType } from "../../../lib/db/schema";
 
 export default function Complain({
   videos,
-  userRecord,
 }: {
-  videos: VideoWithRepost[];
-  userRecord?: UserSelectType;
+  readonly videos: VideoWithRepost[];
 }) {
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 p-6">
@@ -26,11 +22,11 @@ export default function Complain({
         Citizens Complaints
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 place-items-center gap-6">
         {videos.map((video) => (
           <Card
             key={video.id}
-            className="bg-neutral-900 border-neutral-800 max-w-[400px] border-2 rounded-2xl"
+            className="bg-neutral-900  border-neutral-800 max-w-[300px]  md:max-w-[350px] min-w-[300px] md:min-w-[350px] max-h-[600px] h-full border-2 rounded-2xl"
           >
             <CardHeader className="flex justify-between">
               <CardTitle className="text-lg text-white">
@@ -45,8 +41,16 @@ export default function Complain({
               <video
                 src={video.videoUrl!}
                 controls
-                className="w-full rounded-xl mb-3 max-h-[400px]"
-              />
+                className="w-full rounded-xl mb-3 max-h-[400px] h-full object-cover"
+              >
+                <track
+                  kind="captions"
+                  src=""
+                  srcLang="en"
+                  label="English captions"
+                  default
+                />
+              </video>
               <p className="text-sm text-neutral-300 mb-3">{video.body}</p>
 
               <div className="flex items-center justify-between">

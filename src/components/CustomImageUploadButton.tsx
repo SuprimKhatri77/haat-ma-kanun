@@ -36,17 +36,6 @@ export default function CustomProfileUploader({
 
   return (
     <div className="flex gap-4">
-      {/* {currentImage && (
-                <div className="relative w-14 h-14">
-                    <Image
-                        src={currentImage}
-                        alt="Uploaded preview"
-                        fill
-                        className="rounded-md object-cover border"
-                    />
-                </div>
-            )} */}
-
       <button
         type="button"
         className={`${

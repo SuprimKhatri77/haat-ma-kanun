@@ -1,5 +1,5 @@
 "use client";
-import { ArrowDownSquareIcon, SendHorizonal } from "lucide-react";
+import { SendHorizonal } from "lucide-react";
 import React, { useActionState, useEffect, useState } from "react";
 import Response from "./Response";
 import Image from "next/image";
@@ -18,9 +18,9 @@ export default function CommentPage({
   questionId,
   onNewComment,
 }: {
-  userRecord: UserSelectType;
-  questionId: string;
-  onNewComment: () => void;
+  readonly userRecord: UserSelectType;
+  readonly questionId: string;
+  readonly onNewComment: () => void;
 }) {
   const initialState: CommentFormState = {
     errors: {},
@@ -55,7 +55,7 @@ export default function CommentPage({
     if (!state.success && state.message) {
       toast(state.message);
     }
-  }, [state.success, state.message, state.timestamp]);
+  }, [state.success, state.message, state.timestamp, onNewComment]);
   return (
     <div className=" border-[#ffffff] rounded-2xl grow">
       <div className="mt-4 flex">
@@ -97,19 +97,13 @@ export default function CommentPage({
             {isPending ? <Loader /> : <SendHorizonal size={20} />}
           </Button>
           <input type="hidden" name="body" value={comment} required />
-          <input type="hidden" name="userId" value={userRecord.id as string} />
-          <input type="hidden" name="questionId" value={questionId as string} />
+          <input type="hidden" name="userId" value={userRecord.id} />
+          <input type="hidden" name="questionId" value={questionId} />
         </form>
       </div>
       <div id="answers" className="">
         {response.map((res) => (
-          <Response
-            key={res.id}
-            type={res.type}
-            body={res.body}
-            user={res.user}
-            createdAt={res.createdAt}
-          />
+          <Response key={res.id} body={res.body} user={res.user} />
         ))}
       </div>
     </div>

@@ -39,7 +39,7 @@ import {
   Scale,
   Calendar,
   MapPin,
-  File,
+  // File,
 } from "lucide-react";
 
 export default function AdvocateOnboardingForm() {
@@ -50,7 +50,6 @@ export default function AdvocateOnboardingForm() {
   const [advocateType, setAdvocateType] = useState<string>("");
   const advocateTypeOptions = advocateTypeEnum.enumValues;
 
-  const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 7;
 
   const initialState: AdvocateOnboardingFormState = {
@@ -84,7 +83,7 @@ export default function AdvocateOnboardingForm() {
     if (!state.success && state.message) {
       toast.error(state.message);
     }
-  }, [state.message, state.timestamp, state.success]);
+  }, [state.message, state.timestamp, state.success, router, state.redirectTo]);
 
   return (
     <div

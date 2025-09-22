@@ -78,7 +78,7 @@ export default function ChatBot() {
           <div className="flex-1 p-3 space-y-2 overflow-y-auto text-sm">
             {messages.map((msg, idx) => (
               <div
-                key={idx}
+                key={idx + 1}
                 className={`p-2 rounded-lg max-w-[80%] ${
                   msg.sender === "user"
                     ? "bg-white text-black ml-auto"

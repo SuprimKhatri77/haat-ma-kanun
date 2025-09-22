@@ -12,10 +12,10 @@ export default function QnaPage({
   currentUserId,
   userRecord,
 }: {
-  questions: QuestionWithUserLikeAndComment[];
+  readonly questions: QuestionWithUserLikeAndComment[];
   //   qsnWithLike: QuestionWithUserLikeAndComment[];
-  currentUserId: string;
-  userRecord: UserSelectType;
+  readonly currentUserId: string;
+  readonly userRecord: UserSelectType;
 }) {
   const questionsWithLikeCommentCount: QuestionWithUserLikeCommentCount[] =
     questions.map((q) => ({
