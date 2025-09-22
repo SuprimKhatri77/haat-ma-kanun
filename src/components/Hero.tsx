@@ -24,7 +24,7 @@ const transitionVariants = {
       filter: "blur(0px)",
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         bounce: 0.3,
         duration: 1.5,
       },
@@ -65,7 +65,7 @@ export default function HeroSection() {
                     opacity: 1,
                     y: 0,
                     transition: {
-                      type: "spring",
+                      type: "spring" as const,
                       bounce: 0.3,
                       duration: 2,
                     },
@@ -98,25 +98,20 @@ export default function HeroSection() {
                   </div>
                 </AnimatedGroup>
 
-                <TextEffect
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  as="h1"
+                <p
+                  data-aos="fade-up"
                   className="mx-auto mt-8 max-w-4xl text-balance text-5xl max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem]"
                 >
                   Connecting Law With People
-                </TextEffect>
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  delay={0.5}
-                  as="p"
+                </p>
+                <p
+                  data-aos="fade-up"
+                  data-aos-delay="100"
                   className="mx-auto mt-8 max-w-2xl text-balance text-lg"
                 >
                   “Highly accessible platform for finding legal help and
                   verified experts whenever and wherever you need it.”
-                </TextEffect>
+                </p>
 
                 <AnimatedGroup
                   variants={{
@@ -141,11 +136,10 @@ export default function HeroSection() {
                       size="lg"
                       className="rounded-[6px] px-5 text-base overflow-hidden"
                     >
-                      <Link href="/sign-up">
-                        <span className="text-nowrap flex items-center gap-3 justify-center">
-                          As A Lawyer <ArrowBigRightIcon />
-                        </span>
-                      </Link>
+                      <Button className="text-nowrap flex-nowrap hover:text-white hover:bg-black transition-colors ease-linear flex items-center gap-3 justify-center">
+                        <Link href="/sign-up">As A Lawyer</Link>
+                        <ArrowBigRightIcon />
+                      </Button>
                     </Button>
                   </div>
                   <div
@@ -157,11 +151,10 @@ export default function HeroSection() {
                       size="lg"
                       className="rounded-xl px-5 text-base flex items-center"
                     >
-                      <Link href="/sign-up">
-                        <span className="text-nowrap flex items-center gap-3">
-                          As A User <ArrowBigRightIcon />
-                        </span>
-                      </Link>
+                      <Button className="text-nowrap flex-nowrap hover:text-white hover:bg-black transition-colors ease-linear flex items-center gap-3">
+                        <Link href="/sign-up">As A User</Link>
+                        <ArrowBigRightIcon />
+                      </Button>
                     </Button>
                   </div>
                 </AnimatedGroup>
@@ -180,7 +173,10 @@ export default function HeroSection() {
                 },
                 ...transitionVariants,
               }}
-            ></AnimatedGroup>
+            >
+              {/* Add children here if needed */}
+              <></>
+            </AnimatedGroup>
           </div>
         </section>
       </main>

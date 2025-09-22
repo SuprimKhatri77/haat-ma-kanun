@@ -5,9 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AdvocateProfileSelectType } from "../../../../lib/db/schema";
 
+interface LawyerApplicationsProps {
+  readonly lawyerProfileWithUser: AdvocateProfileSelectType[];
+}
+
 export default function LawyerApplications({
   lawyerProfileWithUser,
-}: AdvocateProfileSelectType) {
+}: LawyerApplicationsProps) {
   const [filteredLawyer, setFilteredLawyer] = useState("all");
   const router = useRouter();
 
@@ -61,7 +65,9 @@ export default function LawyerApplications({
             accepted: "bg-[#1AA56A]",
             rejected: "bg-[#CB4657]",
           };
-          const cardBg = colors[lawyer.status] || "bg-[#6764FF]";
+          const cardBg = lawyer.status
+            ? colors[lawyer.status] || "bg-[#6764FF]"
+            : "bg-[#6764FF]";
           return (
             <div
               key={lawyer.id}
@@ -73,7 +79,7 @@ export default function LawyerApplications({
                 className="w-28 h-28 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md"
               >
                 <Image
-                  src={lawyer.imageUrl}
+                  src={lawyer.licenseFileUrl || "/default-profile.png"}
                   alt="Profile"
                   width={100}
                   height={100}
@@ -82,7 +88,9 @@ export default function LawyerApplications({
               </div>
 
               <div id="shortDetail" className="mt-4  space-y-1 text-white">
-                <h3 className="text-lg font-semibold">Name: {lawyer.name}</h3>
+                <h3 className="text-lg font-semibold">
+                  Name: {lawyer.address}
+                </h3>
                 <p className=" text-base font-medium">
                   Country:{" "}
                   <span className="font-medium text-sm ">{lawyer.address}</span>
@@ -95,16 +103,22 @@ export default function LawyerApplications({
                     </Link>
                   </span>
                 </p>
-                <p className="text-base font-medium">
-                  Status:{" "}
-                  <span className={` font-medium text-sm`}>
-                    {lawyer.status === "rejected"
-                      ? "Rejected"
-                      : lawyer.status === "accepted"
-                      ? "Accepted"
-                      : "Pending"}
-                  </span>
-                </p>
+                {(() => {
+                  let displayStatus = "Pending";
+                  if (lawyer.status === "rejected") {
+                    displayStatus = "Rejected";
+                  } else if (lawyer.status === "verified") {
+                    displayStatus = "Accepted";
+                  }
+                  return (
+                    <p className="text-base font-medium">
+                      Status:{" "}
+                      <span className={` font-medium text-sm`}>
+                        {displayStatus}
+                      </span>
+                    </p>
+                  );
+                })()}
                 <p className="text-base font-medium">
                   Applied On: <span className="font-medium">2081/04/02</span>
                 </p>

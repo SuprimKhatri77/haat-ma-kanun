@@ -29,7 +29,7 @@ export function CarouselComplain() {
     <Carousel className="w-full max-w-xs">
       <CarouselContent>
         {images.map((image, index) => (
-          <CarouselItem key={index}>
+          <CarouselItem key={index + 1}>
             <div className="">
               <Card className="bg-transparent">
                 <CardContent className="flex aspect-square items-center justify-center  text-black">

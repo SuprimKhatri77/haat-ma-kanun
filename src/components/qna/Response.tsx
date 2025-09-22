@@ -1,19 +1,12 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "../ui/button";
-import { HeartIcon, HeartOffIcon } from "lucide-react";
-import Answer from "./Answer";
 
 export default function Response({
-  type,
   body,
-  createdAt,
   user,
 }: {
-  type: "answer" | "comment";
-  body: string;
-  createdAt: Date;
-  user: { name: string; image: string };
+  readonly body: string;
+  readonly user: { name: string; image: string };
 }) {
   return (
     <>

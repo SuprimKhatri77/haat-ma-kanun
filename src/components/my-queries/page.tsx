@@ -1,19 +1,8 @@
 "use client";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import {
-  Heart,
-  MailQuestionMarkIcon,
-  MessageCircleIcon,
-  MessageSquareTextIcon,
-  MessageSquareWarningIcon,
-} from "lucide-react";
-import Answer from "../qna/Answer";
-import {
-  QuestionWithUserLikeAndComment,
-  QuestionWithUserLikeCommentCount,
-} from "../../../types/all-types";
-import { useState } from "react";
+import { Heart, MessageCircleIcon } from "lucide-react";
+import { QuestionWithUserLikeCommentCount } from "../../../types/all-types";
 
 export interface Question {
   id: string;

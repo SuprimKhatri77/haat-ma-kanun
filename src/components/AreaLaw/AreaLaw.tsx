@@ -9,12 +9,18 @@ const extractText = (html) => {
   return div.textContent || div.innerText || "";
 };
 
-const parseContent = (html) => {
+type Section = {
+  title: string;
+  content: string;
+  originalLink: string | null;
+};
+
+const parseContent = (html: string): Section[] => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
-  const sections = [];
+  const sections: Section[] = [];
   const elements = doc.body.children;
-  let currentSection = null;
+  let currentSection: Section | null = null;
 
   for (const element of elements) {
     if (
@@ -30,20 +36,18 @@ const parseContent = (html) => {
         content: element.outerHTML,
         originalLink: null,
       };
-    } else {
-      if (currentSection) {
-        const tempDiv = document.createElement("div");
-        tempDiv.appendChild(element.cloneNode(true));
-        const link = tempDiv.querySelector(
-          'a[href*="https://tilottamamun.gov.np/sites/tilottamamun.gov.np/files/documents/तिलोत्तमा%20नगरपालिकाको%20आर्थिक%20ऐन-२०८२.pdf"]'
-        );
+    } else if (currentSection) {
+      const tempDiv = document.createElement("div");
+      tempDiv.appendChild(element.cloneNode(true));
+      const link = tempDiv.querySelector(
+        'a[href*="https://tilottamamun.gov.np/sites/tilottamamun.gov.np/files/documents/तिलोत्तमा%20नगरपालिकाको%20आर्थिक%20ऐन-२०८२.pdf"]'
+      );
 
-        if (link) {
-          currentSection.originalLink = link.href;
-          link.parentNode.removeChild(link);
-        }
-        currentSection.content += tempDiv.innerHTML;
+      if (link) {
+        currentSection.originalLink = (link as HTMLAnchorElement).href;
+        link.parentNode?.removeChild(link);
       }
+      currentSection.content += tempDiv.innerHTML;
     }
   }
   if (currentSection) {
@@ -214,7 +218,7 @@ const AreaLaw = () => {
           {filteredContent.length > 0 ? (
             filteredContent.map((section, index) => (
               <div
-                key={index}
+                key={index + 1}
                 className="bg-gray-800 rounded-xl shadow-lg p-6 mb-6 transition-transform transform hover:scale-[1.01] duration-300"
               >
                 <div

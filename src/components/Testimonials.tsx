@@ -24,15 +24,7 @@ export default function Testimonials() {
             data-aos="fade-right"
             className="grid grid-rows-[auto_1fr] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2 bg-[#222222] text-white"
           >
-            <CardHeader>
-              <img
-                className="h-6 w-fit dark:invert"
-                src="https://html.tailus.io/blocks/customers/nike.svg"
-                alt="Nike Logo"
-                height="24"
-                width="auto"
-              />
-            </CardHeader>
+            <CardHeader></CardHeader>
             <CardContent>
               <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
                 <p className="text-xl font-medium">
@@ -65,7 +57,7 @@ export default function Testimonials() {
             </CardContent>
           </Card>
           <Card
-            data-aos="fade-left"
+            data-aos="fade-down"
             className="md:col-span-2 bg-transparent text-white"
           >
             <CardContent className="h-full pt-6">

@@ -1,11 +1,6 @@
-import { AdvocateProfileWithUser } from "../../types/all-types";
 import Logout from "./LogoutButton";
 
-export default function AdminPage({
-  advocateRecords,
-}: {
-  advocateRecords: AdvocateProfileWithUser[];
-}) {
+export default function AdminPage() {
   return (
     <div>
       <h1>Verify a advocate</h1>

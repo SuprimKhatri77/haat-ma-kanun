@@ -9,6 +9,10 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg", // or "mysql", "sqlite"
   }),
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_BETTER_AUTH_URL
+      : "http://localhost:3000",
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,

@@ -1,7 +1,7 @@
 export default async function Page({
   params,
 }: {
-  params: Promise<{ questionId: string }>;
+  readonly params: Promise<{ readonly questionId: string }>;
 }) {
   const { questionId } = await params;
   if (!questionId) {
@@ -11,5 +11,4 @@ export default async function Page({
       </div>
     );
   }
-  return;
 }

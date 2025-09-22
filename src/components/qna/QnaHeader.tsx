@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { MessageSquareReplyIcon, Upload, User } from "lucide-react";
-import { useRouter } from "next/navigation";
 import QuestionForm from "./QuestionForm";
 import { UserSelectType } from "../../../lib/db/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -10,13 +9,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 export default function QnaHeader({
   userRecord,
 }: {
-  userRecord: UserSelectType;
+  readonly userRecord: UserSelectType;
 }) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const handleClick = () => {
     setOpen(true);
-    // router.push("/qna/post");
   };
   return (
     <>
@@ -25,7 +22,7 @@ export default function QnaHeader({
           {userRecord.image ? (
             <Avatar className="w-12 h-12">
               <AvatarImage
-                className="w-11.5 h-11.5 object-cover object-center"
+                className="size-10 object-cover object-center rounded-full"
                 src={
                   userRecord.image ||
                   "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"

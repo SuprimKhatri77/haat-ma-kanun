@@ -18,9 +18,9 @@ export default function Answer({
   questionId,
   onNewComment,
 }: {
-  userRecord: UserSelectType;
-  questionId: string;
-  onNewComment?: () => void;
+  readonly userRecord: UserSelectType;
+  readonly questionId: string;
+  readonly onNewComment?: () => void;
 }) {
   const [type, setType] = useState<"answer" | "comment" | undefined>("comment");
   const [comment, setComment] = useState<string>("");
@@ -55,7 +55,7 @@ export default function Answer({
     if (!state.success && state.message) {
       toast(state.message);
     }
-  }, [state.success, state.message, state.timestamp]);
+  }, [state.success, state.message, state.timestamp, onNewComment]);
   return (
     <div className=" border-[#ffffff] rounded-2xl grow">
       <div className="mt-4 flex">
@@ -103,13 +103,7 @@ export default function Answer({
       </div>
       <div id="answers" className="flex flex-col gap-4">
         {response.map((res) => (
-          <Response
-            key={res.id}
-            type={res.type}
-            body={res.body}
-            user={res.user}
-            createdAt={res.createdAt}
-          />
+          <Response key={res.id} body={res.body} user={res.user} />
         ))}
       </div>
     </div>

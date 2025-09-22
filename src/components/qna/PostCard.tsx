@@ -3,9 +3,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import {
   Heart,
-  MailQuestionMarkIcon,
   MessageCircleIcon,
-  MessageSquareTextIcon,
   MessageSquareWarningIcon,
 } from "lucide-react";
 import Answer from "./Answer";
@@ -14,7 +12,7 @@ import {
   QuestionWithUserLikeCommentCount,
 } from "../../../types/all-types";
 import { likeAction, LikeFormState } from "../../../server/actions/like/like";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { UserSelectType } from "../../../lib/db/schema";
 import CommentPage from "./Comment";
 
@@ -76,7 +74,7 @@ const PostCard = ({
               alt="Profile Picture"
               width={40}
               height={40}
-              className="rounded-full mr-3"
+              className="rounded-full size-10 mr-3 object-cover object-center"
             />
             <div>
               <p className="font-semibold text-gray-300">
@@ -96,44 +94,71 @@ const PostCard = ({
           <div className="flex justify-between text-sm mt-3">
             <div className="flex gap-2 mt-1">
               <div className="bg-transparent flex items-center gap-1">
-                <p>
-                  {isLiked && isPending && clickedQuestionId === question.id
-                    ? question.likes.count - 1
-                    : !isLiked && isPending && clickedQuestionId === question.id
-                    ? question.likes.count + 1
-                    : question.likes.count}
-                </p>
-                Likes
-                <form action={formAction}>
-                  <Button
-                    type="submit"
-                    onClick={() => setClickedQuestionId(question.id)}
-                    className="bg-transparent hover:bg-transparent hover:scale-115 cursor-pointer"
-                  >
-                    {isPending &&
+                {(() => {
+                  let displayLikes: number;
+                  if (
+                    isLiked &&
+                    isPending &&
+                    clickedQuestionId === question.id
+                  ) {
+                    displayLikes = question.likes.count - 1;
+                  } else if (
+                    !isLiked &&
+                    isPending &&
+                    clickedQuestionId === question.id
+                  ) {
+                    displayLikes = question.likes.count + 1;
+                  } else {
+                    displayLikes = question.likes.count;
+                  }
+                  return (
+                    <>
+                      <p>{displayLikes}</p>
+                      Likes
+                    </>
+                  );
+                })()}
+                {/* Extract Heart icon rendering into a variable */}
+                {(() => {
+                  let heartIcon;
+                  if (
+                    isPending &&
                     clickedQuestionId === question.id &&
-                    !isLiked ? (
-                      <Heart className="fill-red-500" />
-                    ) : isLiked &&
-                      !(isPending && clickedQuestionId === question.id) ? (
-                      <Heart className="fill-red-500" />
-                    ) : (
-                      <Heart />
-                    )}
-                  </Button>
-                  <input
-                    type="hidden"
-                    name="userId"
-                    value={currentUserId}
-                    required
-                  />
-                  <input
-                    type="hidden"
-                    name="questionId"
-                    value={question.id}
-                    required
-                  />
-                </form>
+                    !isLiked
+                  ) {
+                    heartIcon = <Heart className="fill-red-500" />;
+                  } else if (
+                    isLiked &&
+                    !(isPending && clickedQuestionId === question.id)
+                  ) {
+                    heartIcon = <Heart className="fill-red-500" />;
+                  } else {
+                    heartIcon = <Heart />;
+                  }
+                  return (
+                    <form action={formAction}>
+                      <Button
+                        type="submit"
+                        onClick={() => setClickedQuestionId(question.id)}
+                        className="bg-transparent hover:bg-transparent hover:scale-115 cursor-pointer"
+                      >
+                        {heartIcon}
+                      </Button>
+                      <input
+                        type="hidden"
+                        name="userId"
+                        value={currentUserId}
+                        required
+                      />
+                      <input
+                        type="hidden"
+                        name="questionId"
+                        value={question.id}
+                        required
+                      />
+                    </form>
+                  );
+                })()}
               </div>
 
               <Button

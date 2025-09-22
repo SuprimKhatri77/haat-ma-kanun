@@ -1,14 +1,11 @@
 import React from "react";
 import { db } from "../../../lib/db";
-import {
-  QuestionWithUserLikeAndComment,
-} from "../../../types/all-types";
+import { QuestionWithUserLikeAndComment } from "../../../types/all-types";
 import { eq } from "drizzle-orm";
 import { auth } from "../../../server/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { user } from "../../../lib/db/schema";
-import { upsertStreamUser, type StreamUserForUpsert } from "@/config/stream";
+import { question, user } from "../../../lib/db/schema";
 import QnaPage from "@/components/QNA";
 
 export default async function Page() {

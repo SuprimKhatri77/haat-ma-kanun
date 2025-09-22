@@ -3,11 +3,9 @@ import React from "react";
 
 function page() {
   return (
-    <>
-      <main className="mt-20">
-        <CustomizedTimeline />
-      </main>
-    </>
+    <main className="mt-20">
+      <CustomizedTimeline />
+    </main>
   );
 }
 

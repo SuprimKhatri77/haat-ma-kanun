@@ -31,9 +31,8 @@ import { toast } from "sonner";
 export default function QuestionForm({
   onOpen,
 }: {
-  onOpen?: (bool: boolean) => void;
+  readonly onOpen?: (bool: boolean) => void;
 }) {
-  if (typeof window === "undefined") return null;
   const [category, setCategory] = useState<string>("");
   const [language, setLanguage] = useState<string>("english");
   const [description, setDescription] = useState<string>("");
@@ -66,16 +65,17 @@ export default function QuestionForm({
       toast(state.message);
     }
   }, [state.success, state.message, state.timestamp]);
+  if (typeof window === "undefined") return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 transition-all ease-in duration-300  fixed -translate-x-1/2 -translate-y-1/2 inset-0 top-1/2 left-1/2">
       <Card className="w-full opacity-100 max-w-3xl relative text-[#e1e1e1] bg-[#272525] hover:bg-[#141212] border-1 border-[#ffffff]">
-        <span
+        <Button
           className="absolute top-4 right-4 cursor-pointer hover:rotate-180 transition duration-150 ease-in"
           onClick={() => onOpen?.(false)}
         >
           <XIcon />
-        </span>
+        </Button>
         <CardHeader className="text-center">
           <CardTitle>Submit Your Question</CardTitle>
           <CardDescription>
@@ -111,7 +111,6 @@ export default function QuestionForm({
 
               <div className="flex justify-between gap-6">
                 <div className="flex-1">
-                  <label className="block text-sm mb-2">Category</label>
                   <Select
                     defaultValue="fundamental-rights-and-duties"
                     onValueChange={(value) => setCategory(value)}
@@ -131,7 +130,7 @@ export default function QuestionForm({
                 </div>
 
                 <div className="flex-1">
-                  <label className="block text-sm mb-2">Language</label>
+                  <Label className="block text-sm mb-2">Language</Label>
                   <Select
                     defaultValue="english"
                     onValueChange={(value) => setLanguage(value)}
