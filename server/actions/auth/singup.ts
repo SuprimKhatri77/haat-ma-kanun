@@ -41,7 +41,7 @@ export async function signUp(prevState: SignupFormState, formData: FormData) {
     firstName: z.string().nonempty().min(1).max(20),
     lastName: z.string().nonempty().min(1),
     email: z.email().nonempty(),
-    password: z.string().min(8).max(12),
+    password: z.string(),
     role: roleEnum,
   });
 

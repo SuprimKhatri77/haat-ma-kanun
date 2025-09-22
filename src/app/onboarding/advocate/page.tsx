@@ -39,6 +39,7 @@ import {
   Scale,
   Calendar,
   MapPin,
+  File,
 } from "lucide-react";
 
 type AdvocateOnboardingFormProps = {
@@ -95,14 +96,14 @@ export default function AdvocateOnboardingForm({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 py-8 max-w-[800px] mx-auto justify-center min-h-screen px-4",
+        "flex flex-col gap-8 py-8 max-w-[800px] mx-auto justify-center min-h-screen px-4 mt-20",
         className
       )}
     >
       <div className="text-center space-y-4">
-        <div className="flex items-center justify-center gap-2 mb-4">
+        <div className="flex items-center justify-center gap-2 mb-4 text-white">
           <Scale className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
             Advocate Registration
           </h1>
         </div>
@@ -111,7 +112,7 @@ export default function AdvocateOnboardingForm({
         </p>
 
         <div className="space-y-2">
-          <div className="flex justify-between text-sm text-muted-foreground">
+          <div className="flex justify-between text-sm">
             <span>Progress</span>
             <span>{Math.round(calculateProgress())}% Complete</span>
           </div>
@@ -119,7 +120,7 @@ export default function AdvocateOnboardingForm({
         </div>
       </div>
 
-      <Card className="shadow-lg border-0 bg-gradient-to-br from-card to-card/50">
+      <Card className="shadow-lg border  backdrop-blur-md  bg-gradient-to-b from-gray-400 via-[#d8d8d8] to-[#bcbcbc] text-black">
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl">Professional Information</CardTitle>
           <CardDescription className="text-base">
@@ -131,7 +132,7 @@ export default function AdvocateOnboardingForm({
             <div className="space-y-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
+                  <User className="h-5 w-5 text-black" />
                   <Label
                     htmlFor="profilePhotoUrl"
                     className="text-base font-medium"
@@ -179,7 +180,7 @@ export default function AdvocateOnboardingForm({
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-primary" />
+                  <MapPin className="h-5 w-5 text-black" />
                   <Label htmlFor="address" className="text-base font-medium">
                     Address
                   </Label>
@@ -194,104 +195,117 @@ export default function AdvocateOnboardingForm({
                 />
               </div>
 
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <Label htmlFor="sex" className="text-base font-medium">
-                    Gender
-                  </Label>
-                  {sex && <CheckCircle2 className="h-4 w-4 text-green-500" />}
-                </div>
-                <Select
-                  name="sex"
-                  onValueChange={(value) => setSex(value)}
-                  defaultValue={state.inputs?.sex}
-                  value={sex}
-                >
-                  <SelectTrigger className="h-12">
-                    <SelectValue placeholder="Select your gender" />
-                  </SelectTrigger>
-                  <SelectContent id="sex">
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-                <input type="hidden" name="sex" value={sex} />
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Scale className="h-5 w-5 text-primary" />
-                  <Label
-                    htmlFor="advocateType"
-                    className="text-base font-medium"
+              <div className="flex justify-between">
+                {/* gender selection */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <User className="h-5 w-5 text-black" />
+                    <Label htmlFor="sex" className="text-base font-medium">
+                      Gender
+                    </Label>
+                    {sex && <CheckCircle2 className="h-4 w-4 text-green-500" />}
+                  </div>
+                  <Select
+                    name="sex"
+                    onValueChange={(value) => setSex(value)}
+                    defaultValue={state.inputs?.sex}
+                    value={sex}
                   >
-                    Advocate Type
-                  </Label>
-                  {advocateType && (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  )}
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Select your gender" />
+                    </SelectTrigger>
+                    <SelectContent id="sex">
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <input type="hidden" name="sex" value={sex} />
                 </div>
-                <Select
-                  onValueChange={(value) => setAdvocateType(value)}
-                  defaultValue={state.inputs?.advocateType}
-                >
-                  <SelectTrigger className="h-12">
-                    <SelectValue placeholder="Select your specialization" />
-                  </SelectTrigger>
-                  <SelectContent id="advocateType">
-                    {advocateTypeOptions.map((adv) => (
-                      <SelectItem value={adv} key={adv}>
-                        {adv.charAt(0).toUpperCase() +
-                          adv.slice(1).toLowerCase()}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <input type="hidden" name="advocateType" value={advocateType} />
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <Label htmlFor="barNumber" className="text-base font-medium">
-                    Bar Number
-                  </Label>
-                </div>
-                <Input
-                  type="number"
-                  name="barNumber"
-                  id="barNumber"
-                  placeholder="Enter your bar registration number"
-                  className="h-12"
-                  defaultValue={state.inputs?.barNumber}
-                />
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-primary" />
-                  <Label
-                    htmlFor="yearExperience"
-                    className="text-base font-medium"
+                {/* advocate type */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Scale className="h-5 w-5 text-black" />
+                    <Label
+                      htmlFor="advocateType"
+                      className="text-base font-medium"
+                    >
+                      Advocate Type
+                    </Label>
+                    {advocateType && (
+                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    )}
+                  </div>
+                  <Select
+                    onValueChange={(value) => setAdvocateType(value)}
+                    defaultValue={state.inputs?.advocateType}
                   >
-                    Years of Experience
-                  </Label>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Select your specialization" />
+                    </SelectTrigger>
+                    <SelectContent id="advocateType">
+                      {advocateTypeOptions.map((adv) => (
+                        <SelectItem value={adv} key={adv}>
+                          {adv.charAt(0).toUpperCase() +
+                            adv.slice(1).toLowerCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <input
+                    type="hidden"
+                    name="advocateType"
+                    value={advocateType}
+                  />
                 </div>
-                <Input
-                  type="number"
-                  name="yearsExperience"
-                  id="yearExperience"
-                  placeholder="Enter years of practice"
-                  className="h-12"
-                  defaultValue={state.inputs?.yearsExperience}
-                />
+              </div>
+
+              <div className="flex justify-between">
+                {/* bar number */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-black" />
+                    <Label
+                      htmlFor="barNumber"
+                      className="text-base font-medium"
+                    >
+                      Bar Number
+                    </Label>
+                  </div>
+                  <Input
+                    type="number"
+                    name="barNumber"
+                    id="barNumber"
+                    placeholder="Enter your bar registration number"
+                    className="h-12"
+                    defaultValue={state.inputs?.barNumber}
+                  />
+                </div>
+                {/* years of experience */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-black" />
+                    <Label
+                      htmlFor="yearExperience"
+                      className="text-base font-medium"
+                    >
+                      Years of Experience
+                    </Label>
+                  </div>
+                  <Input
+                    type="number"
+                    name="yearsExperience"
+                    id="yearExperience"
+                    placeholder="Enter years of practice"
+                    className="h-12"
+                    defaultValue={state.inputs?.yearsExperience}
+                  />
+                </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
+                  <FileText className="h-5 w-5 text-black" />
                   <Label
                     htmlFor="resumePhotoUrl"
                     className="text-base font-medium"
@@ -346,20 +360,20 @@ export default function AdvocateOnboardingForm({
               <div className="pt-6">
                 <Button
                   type="submit"
+                  className="text-black  w-full hover:cursor-pointer hover:text-white h-12 text-base font-medium bg-gray-300  transition-all duration-200 shadow-lg hover:shadow-xl"
                   disabled={
                     isPending || !licenseFileUrl || !profilePhotoUrl || !sex
                   }
-                  className="w-full h-12 text-base font-medium bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
                   {isPending ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ">
                       <Loader />
-                      <span>Processing Application...</span>
+                      <span className="">Processing Application...</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="h-5 w-5" />
-                      <span>Submit Application</span>
+                      <span className="!text-black">Submit Application</span>
                     </div>
                   )}
                 </Button>

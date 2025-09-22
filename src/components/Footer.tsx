@@ -1,39 +1,44 @@
-// import { Logo } from "@/components/logo";
+import Image from "next/image";
 import Link from "next/link";
 
 const links = [
   {
-    title: "Features",
-    href: "#",
+    title: "Home",
+    href: "/",
   },
   {
-    title: "Solution",
-    href: "#",
+    title: "Qna",
+    href: "qna",
   },
   {
-    title: "Customers",
-    href: "#",
+    title: "AreaLaw",
+    href: "areaLaw",
   },
   {
-    title: "Pricing",
-    href: "#",
-  },
-  {
-    title: "Help",
-    href: "#",
+    title: "My Queries",
+    href: "myQueries",
   },
   {
     title: "About",
-    href: "#",
+    href: "about",
   },
 ];
 
 export default function FooterSection() {
   return (
-    <footer className="py-16 md:py-32">
+    <footer className="py-5">
+      <p className="text-white text-base text-center pb-5">
+        {"Be With Us Everywhere"}
+      </p>
       <div className="mx-auto max-w-5xl px-6">
         <Link href="/" aria-label="go home" className="mx-auto block size-fit">
-          {/* <Logo /> */}Logo
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={100}
+            height={100}
+            className="mx-auto"
+          />
         </Link>
 
         <div className="my-8 flex flex-wrap justify-center gap-6 text-sm">
@@ -41,7 +46,7 @@ export default function FooterSection() {
             <Link
               key={index}
               href={link.href}
-              className="text-muted-foreground hover:text-primary block duration-150"
+              className="text-muted-foreground hover:text-white block duration-150"
             >
               <span>{link.title}</span>
             </Link>
@@ -53,7 +58,7 @@ export default function FooterSection() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X/Twitter"
-            className="text-muted-foreground hover:text-primary block"
+            className="text-white block"
           >
             <svg
               className="size-6"
@@ -176,7 +181,7 @@ export default function FooterSection() {
         </div>
         <span className="text-muted-foreground block text-center text-sm">
           {" "}
-          © {new Date().getFullYear()} Tailark, All rights reserved
+          © {new Date().getFullYear()} Kanun, All rights reserved
         </span>
       </div>
     </footer>
