@@ -30,5 +30,5 @@ export default async function Page() {
         user: true,
       },
     });
-  return <AdminPage advocateRecords={advocateRecords} />;
+  return <AdminPage />;
 }
