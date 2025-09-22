@@ -45,7 +45,6 @@ export default function Complain({
               >
                 <track
                   kind="captions"
-                  src=""
                   srcLang="en"
                   label="English captions"
                   default
