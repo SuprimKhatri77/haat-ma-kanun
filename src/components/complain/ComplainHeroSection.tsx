@@ -2,16 +2,17 @@ import { ArrowDownRight, Star, Upload } from "lucide-react";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselComplain } from "./Carousel";
+import { CarouselComplain } from "./Carousel";
 import Link from "next/link";
+import { UserSelectType } from "../../../lib/db/schema";
 
 interface Hero3Props {
   heading?: string;
   description?: string;
   buttons?: {
     primary?: {
-      text: string;
-      url: string;
+      text?: string;
+      url?: string;
     };
     secondary?: {
       text: string;
@@ -26,16 +27,22 @@ interface Hero3Props {
     }[];
     rating?: number;
   };
+  userRecord?: UserSelectType;
 }
 
 const ComplainHeroSection = ({
   heading = "Exposing Criminals With Lawyers",
   description = "The best way to get a lawyer for your legal needs",
+  userRecord,
   buttons = {
-    primary: {
-      text: "Sign Up",
-      url: "https://www.shadcnblocks.com",
-    },
+    ...(!userRecord
+      ? {
+          primary: {
+            text: "Sign in",
+            url: "https://www.shadcnblocks.com",
+          },
+        }
+      : {}),
     secondary: {
       text: "Upload Video",
       url: "/post-video",

@@ -1,5 +1,3 @@
-import PostCard from "@/components/qna/PostCard";
-import QnaHeader from "@/components/qna/QnaHeader";
 import React from "react";
 import { db } from "../../../lib/db";
 import {
@@ -10,7 +8,7 @@ import { eq, sql } from "drizzle-orm";
 import { auth } from "../../../server/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { user } from "../../../lib/db/schema";
+import { question, user } from "../../../lib/db/schema";
 import QnaPage from "@/components/QNA";
 
 export default async function page() {
@@ -34,6 +32,7 @@ export default async function page() {
         likes: true,
         comments: true,
       },
+      orderBy: (questions, { desc }) => [desc(questions.createdAt)],
     });
   if (questions.length === 0) {
     return <h1>No questions</h1>;

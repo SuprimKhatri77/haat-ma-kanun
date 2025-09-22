@@ -50,11 +50,18 @@ const PostCard = ({
       )
     );
   };
+  const [commentsCount, setCommentsCount] = useState(
+    questions.reduce((acc, q) => {
+      acc[q.id] = q.comments.count;
+      return acc;
+    }, {} as Record<string, number>)
+  );
 
   return (
     // console.log("questions", questions),
     questions.length > 0 &&
     questions.map((question) => {
+      console.log(question.user.image, "question.user.image");
       console.log("question", question.comments);
       const isLiked = hasLiked(currentUserId, question.id);
 
@@ -65,26 +72,25 @@ const PostCard = ({
         >
           <div className="flex items-center mb-3">
             <Image
-              src={
-                question.user.image ||
-                "https://5wt23w8lat.ufs.sh/f/4Ina5a0Nyj35BpvnC8GfqH2grxZLMciEXY3e04oTybQNdzD5"
-              }
+              src={question.user?.image || "https://github.com/shadcn.png"}
               alt="Profile Picture"
               width={40}
               height={40}
               className="rounded-full mr-3"
             />
             <div>
-              <p className="font-semibold">{question.user.name}</p>
+              <p className="font-semibold text-gray-300">
+                {question.user.name}
+              </p>
               {question.createdAt && (
-                <p className="text-sm">
+                <p className="text-sm text-gray-400">
                   {new Date(question.createdAt).toLocaleString()}
                 </p>
               )}
             </div>
           </div>
 
-          <p className="mb-3">{question.title}</p>
+          <p className="mb-3 font-medium">{question.title}</p>
           <div id="Body">{question.description}</div>
 
           <div className="flex justify-between text-sm mt-3">
@@ -138,7 +144,7 @@ const PostCard = ({
                   )
                 }
               >
-                {question.comments.count} Comments
+                {commentsCount[question.id] || 0} Comments
                 <div>
                   <MessageCircleIcon />
                 </div>
@@ -163,10 +169,28 @@ const PostCard = ({
             </div>
           </div>
           {showComments === question.id && userRecord.role === "advocate" && (
-            <Answer userRecord={userRecord} questionId={question.id} />
+            <Answer
+              userRecord={userRecord}
+              questionId={question.id}
+              onNewComment={() =>
+                setCommentsCount((prev) => ({
+                  ...prev,
+                  [question.id]: (prev[question.id] || 0) + 1,
+                }))
+              }
+            />
           )}
           {showComments === question.id && userRecord.role === "user" && (
-            <CommentPage userRecord={userRecord} questionId={question.id} />
+            <CommentPage
+              userRecord={userRecord}
+              questionId={question.id}
+              onNewComment={() =>
+                setCommentsCount((prev) => ({
+                  ...prev,
+                  [question.id]: (prev[question.id] || 0) + 1,
+                }))
+              }
+            />
           )}
         </div>
       );

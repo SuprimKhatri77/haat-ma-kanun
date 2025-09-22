@@ -1,7 +1,10 @@
+"use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAOS } from "@/app/Hook/AOS";
 
 export default function Testimonials() {
+  useAOS();
   return (
     <section className="py-16 md:py-32">
       <div className="mx-auto max-w-6xl space-y-8 px-6 md:space-y-16">
@@ -17,7 +20,10 @@ export default function Testimonials() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2">
-          <Card className="grid grid-rows-[auto_1fr] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2 bg-[#222222] text-white">
+          <Card
+            data-aos="fade-right"
+            className="grid grid-rows-[auto_1fr] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2 bg-[#222222] text-white"
+          >
             <CardHeader>
               <img
                 className="h-6 w-fit dark:invert"
@@ -58,7 +64,10 @@ export default function Testimonials() {
               </blockquote>
             </CardContent>
           </Card>
-          <Card className="md:col-span-2 bg-transparent text-white">
+          <Card
+            data-aos="fade-left"
+            className="md:col-span-2 bg-transparent text-white"
+          >
             <CardContent className="h-full pt-6">
               <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
                 <p className="text-xl font-medium">
@@ -90,7 +99,11 @@ export default function Testimonials() {
               </blockquote>
             </CardContent>
           </Card>
-          <Card className="bg-transparent text-white">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="200"
+            className="bg-transparent text-white"
+          >
             <CardContent className="h-full pt-6">
               <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
                 <p>
@@ -120,7 +133,11 @@ export default function Testimonials() {
               </blockquote>
             </CardContent>
           </Card>
-          <Card className="card variant-mixed bg-transparent text-white">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="200"
+            className="card variant-mixed bg-transparent text-white"
+          >
             <CardContent className="h-full pt-6">
               <blockquote className="grid h-full grid-rows-[1fr_auto] gap-6">
                 <p>

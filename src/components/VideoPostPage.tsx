@@ -1,20 +1,17 @@
 "use client";
 
 import type React from "react";
-
 import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import VideoUploader from "@/components/video-uploader";
 import { Send } from "lucide-react";
 import CustomVideoUploader from "./VideoUploader";
 import {
   videoAction,
   VideoActionFormState,
 } from "../../server/actions/video/video";
-import { desc } from "drizzle-orm";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +19,7 @@ export default function PostVideoPage({ userId }: { userId: string }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
 
   const initialState: VideoActionFormState = {
     errors: {},
@@ -29,11 +27,13 @@ export default function PostVideoPage({ userId }: { userId: string }) {
     success: false,
     timestamp: new Date(),
     redirectTo: "",
-  } as VideoActionFormState;
+  };
+
   const [state, formAction, isPending] = useActionState<
     VideoActionFormState,
     FormData
   >(videoAction, initialState);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -61,98 +61,107 @@ export default function PostVideoPage({ userId }: { userId: string }) {
           </p>
         </div>
 
-        <div className=" w-full">
-          {/* Main Upload Form */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-lg bg-black text-white">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Send className="h-5 w-5 text-primary" />
-                  Create Your Post
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <form action={formAction} className="space-y-6">
-                  {/* Video Upload */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Upload Video
-                    </label>
-                    <CustomVideoUploader
-                      currentVideo={currentVideoUrl}
-                      onUploadComplete={(url: string) =>
-                        setCurrentVideoUrl(url)
-                      }
-                    />
-                  </div>
-                  <input
-                    type="hidden"
-                    name="videoUrl"
-                    value={currentVideoUrl}
+        {/* Main Upload Form */}
+        <div className="w-full">
+          <Card className="shadow-lg bg-black text-white">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Send className="h-5 w-5 text-primary" />
+                Create Your Post
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <form action={formAction} className="space-y-6">
+                {/* Video Upload */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Upload Video
+                  </label>
+                  <CustomVideoUploader
+                    currentVideo={currentVideoUrl}
+                    onUploadComplete={(url: string) => setCurrentVideoUrl(url)}
                   />
+                </div>
+                <input type="hidden" name="videoUrl" value={currentVideoUrl} />
 
-                  {/* Title Input */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Video Title *
-                    </label>
-                    <Input
-                      type="text"
-                      placeholder="Give your video a catchy title..."
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="text-base"
-                      maxLength={100}
-                      required
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {title.length}/100 characters
-                    </p>
-                    <input type="hidden" name="title" value={title} />
-                  </div>
+                {/* Title Input */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Video Title *
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Give your video a catchy title..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="text-base"
+                    maxLength={100}
+                    required
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {title.length}/100 characters
+                  </p>
+                  <input type="hidden" name="title" value={title} />
+                </div>
 
-                  {/* Description */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Description
-                    </label>
-                    <Textarea
-                      placeholder="Tell your audience what this video is about..."
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      className="min-h-[120px] text-base resize-none"
-                      maxLength={500}
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {description.length}/500 characters
-                    </p>
-                    <input type="hidden" name="body" value={description} />
-                  </div>
+                {/* Location Input */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Location
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder=""
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="text-base"
+                    maxLength={100}
+                    required
+                  />
+                  <input type="hidden" name="location" value={location} />
+                </div>
 
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    disabled={!currentVideoUrl || isPending}
-                    variant={"ghost"}
-                    className="w-full h-12 text-base bg-white text-black font-semibold"
-                  >
-                    {isPending ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
-                        Posting...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4 mr-2 text-black" />
-                        Post Video
-                      </>
-                    )}
-                  </Button>
-                  <input type="hidden" name="userId" value={userId} />
-                </form>
-              </CardContent>
-            </Card>
-          </div>
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Description
+                  </label>
+                  <Textarea
+                    placeholder="Tell your audience what this video is about..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="min-h-[120px] text-base resize-none"
+                    maxLength={500}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {description.length}/500 characters
+                  </p>
+                  <input type="hidden" name="body" value={description} />
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  disabled={!currentVideoUrl || isPending}
+                  variant={"ghost"}
+                  className="w-full h-12 text-base bg-white text-black font-semibold"
+                >
+                  {isPending ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
+                      Posting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4 mr-2 text-black" />
+                      Post Video
+                    </>
+                  )}
+                </Button>
+                <input type="hidden" name="userId" value={userId} />
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

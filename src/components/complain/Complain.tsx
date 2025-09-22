@@ -11,8 +11,15 @@ import { Button } from "@/components/ui/button";
 import { ThumbsUp, Repeat, User, FlagIcon } from "lucide-react";
 import { VideoWithRepost } from "../../../types/all-types";
 import { toast } from "sonner";
+import { UserSelectType } from "../../../lib/db/schema";
 
-export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
+export default function Complain({
+  videos,
+  userRecord,
+}: {
+  videos: VideoWithRepost[];
+  userRecord?: UserSelectType;
+}) {
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">
@@ -29,8 +36,10 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
               <CardTitle className="text-lg text-white">
                 {video.title}
               </CardTitle>
-              {/* put it inside tooltip */}
-              <FlagIcon className="text-white hover:text-gray-400 transition duration-300 ease-in hover:cursor-pointer" />
+              <FlagIcon
+                onClick={() => toast.success("Flagged as urgent!")}
+                className="text-white hover:text-gray-400 transition duration-300 ease-in hover:cursor-pointer"
+              />
             </CardHeader>
             <CardContent>
               <video
@@ -41,15 +50,12 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
               <p className="text-sm text-neutral-300 mb-3">{video.body}</p>
 
               <div className="flex items-center justify-between">
-                {/* User Info */}
                 <div className="flex items-center gap-2 text-neutral-400">
                   <User size={16} />
                   <span>Anonymous</span>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex gap-3">
-                  {/* Repost Button with Tooltip */}
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -68,7 +74,6 @@ export default function Complain({ videos }: { videos: VideoWithRepost[] }) {
                     </TooltipContent>
                   </Tooltip>
 
-                  {/* Like Button (optional example) */}
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button

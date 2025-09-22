@@ -7,9 +7,9 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+// import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import Typography from "@mui/material/Typography";
-import { CheckSquare, Flag, Gavel, Users } from "lucide-react";
+import { AlertTriangle, CheckSquare, Flag, Gavel, Users } from "lucide-react";
 
 export default function CustomizedTimeline() {
   return (
@@ -110,7 +110,7 @@ export default function CustomizedTimeline() {
         <TimelineSeparator>
           <TimelineConnector />
           <TimelineDot color="error">
-            <WarningAmberIcon />
+            <AlertTriangle />
           </TimelineDot>
           <TimelineConnector />
         </TimelineSeparator>

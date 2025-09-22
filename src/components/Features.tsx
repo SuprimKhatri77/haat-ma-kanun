@@ -1,3 +1,5 @@
+"use client";
+import { useAOS } from "@/app/Hook/AOS";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   MapPinnedIcon,
@@ -9,6 +11,7 @@ import {
 import { ReactNode } from "react";
 
 export default function Features() {
+  useAOS();
   return (
     <section className="bg-black py-16 md:py-32 dark:bg-transparent">
       <div className="@container mx-auto max-w-5xl px-6">
@@ -19,7 +22,11 @@ export default function Features() {
           <p className="mt-4">Key Features</p>
         </div>
         <div className="@min-4xl:max-w-full @min-4xl:grid-cols-3 mx-auto mt-8 grid max-w-sm gap-6 *:text-center md:mt-16">
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
                 <UsersRoundIcon className="size-6" />
@@ -36,7 +43,11 @@ export default function Features() {
             </CardContent>
           </Card>
 
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="200"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
                 <MapPinnedIcon className="size-6" />
@@ -53,7 +64,11 @@ export default function Features() {
             </CardContent>
           </Card>
 
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="300"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
                 <Sparkles className="size-6" aria-hidden />
