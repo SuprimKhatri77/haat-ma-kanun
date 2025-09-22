@@ -28,13 +28,19 @@
       ]
     }
   },
+  "theme": {
+    "extend": {
+      "backgroundImage": {
+        "gradient-45": "linear-gradient(45deg, var(--tw-gradient-stops))",
+      },
+    },
+  },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/components/AreaLaw/AreaLaw.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

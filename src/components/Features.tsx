@@ -1,10 +1,19 @@
+"use client";
+import { useAOS } from "@/app/Hook/AOS";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Settings2, Sparkles, Zap } from "lucide-react";
+import {
+  MapPinnedIcon,
+  Settings2,
+  Sparkles,
+  UsersRoundIcon,
+  Zap,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 export default function Features() {
+  useAOS();
   return (
-    <section className="bg-zinc-50 py-16 md:py-32 dark:bg-transparent">
+    <section className="bg-black py-16 md:py-32 dark:bg-transparent">
       <div className="@container mx-auto max-w-5xl px-6">
         <div className="text-center">
           <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
@@ -13,13 +22,17 @@ export default function Features() {
           <p className="mt-4">Key Features</p>
         </div>
         <div className="@min-4xl:max-w-full @min-4xl:grid-cols-3 mx-auto mt-8 grid max-w-sm gap-6 *:text-center md:mt-16">
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
-                <Zap className="size-6" aria-hidden />
+                <UsersRoundIcon className="size-6" />
               </CardDecorator>
 
-              <h3 className="mt-6 font-medium">Customizable</h3>
+              <h3 className="mt-6 font-medium">Verified Lawyers</h3>
             </CardHeader>
 
             <CardContent>
@@ -30,13 +43,17 @@ export default function Features() {
             </CardContent>
           </Card>
 
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="200"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
-                <Settings2 className="size-6" aria-hidden />
+                <MapPinnedIcon className="size-6" />
               </CardDecorator>
 
-              <h3 className="mt-6 font-medium">You have full control</h3>
+              <h3 className="mt-6 font-medium">Local Law Information</h3>
             </CardHeader>
 
             <CardContent>
@@ -47,13 +64,17 @@ export default function Features() {
             </CardContent>
           </Card>
 
-          <Card className="group shadow-zinc-950/5">
+          <Card
+            data-aos="fade-up"
+            data-aos-delay="300"
+            className="group shadow-zinc-950/5"
+          >
             <CardHeader className="pb-3">
               <CardDecorator>
                 <Sparkles className="size-6" aria-hidden />
               </CardDecorator>
 
-              <h3 className="mt-6 font-medium">Powered By AI</h3>
+              <h3 className="mt-6 font-medium">AI Chatbot</h3>
             </CardHeader>
 
             <CardContent>

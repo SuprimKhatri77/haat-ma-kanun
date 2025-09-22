@@ -68,7 +68,7 @@ export default function QuestionForm({
   }, [state.success, state.message, state.timestamp]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 transition-all ease-in duration-300 bg-black/70 fixed -translate-x-1/2 -translate-y-1/2 inset-0 top-1/2 left-1/2">
+    <div className="min-h-screen flex items-center justify-center p-6 sm:p-12 transition-all ease-in duration-300  fixed -translate-x-1/2 -translate-y-1/2 inset-0 top-1/2 left-1/2">
       <Card className="w-full opacity-100 max-w-3xl relative text-[#e1e1e1] bg-[#272525] hover:bg-[#141212] border-1 border-[#ffffff]">
         <span
           className="absolute top-4 right-4 cursor-pointer hover:rotate-180 transition duration-150 ease-in"
@@ -85,7 +85,6 @@ export default function QuestionForm({
         <CardContent>
           <form action={formAction}>
             <div className="flex flex-col gap-6">
-              {/* Title */}
               <div className="grid gap-2">
                 <Label htmlFor="title">Title</Label>
                 <Input
@@ -97,7 +96,6 @@ export default function QuestionForm({
                 />
               </div>
 
-              {/* Description */}
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="description">Description</Label>
@@ -111,9 +109,7 @@ export default function QuestionForm({
               </div>
               <input type="hidden" name="description" value={description} />
 
-              {/* Category & Language */}
               <div className="flex justify-between gap-6">
-                {/* Category */}
                 <div className="flex-1">
                   <label className="block text-sm mb-2">Category</label>
                   <Select
@@ -134,7 +130,6 @@ export default function QuestionForm({
                   <input type="hidden" name="category" value={category} />
                 </div>
 
-                {/* Language */}
                 <div className="flex-1">
                   <label className="block text-sm mb-2">Language</label>
                   <Select
@@ -154,7 +149,6 @@ export default function QuestionForm({
               </div>
             </div>
 
-            {/* Submit */}
             <Button
               type="submit"
               className="w-[90%] mt-8 mx-auto flex items-center justify-center bg-[#353535] hover:bg-[#1d1d1d] text-[#e1e1e1] hover:text-[#ffffff] border-1 border-[#ffffff] rounded-[4px] py-2 px-4 cursor-pointer transition-colors duration-300 ease-in-out"

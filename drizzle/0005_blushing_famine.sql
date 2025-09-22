@@ -1,0 +1,1 @@
+ALTER TABLE "video" ADD COLUMN "location" text;

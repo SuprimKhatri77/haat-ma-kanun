@@ -1,5 +1,3 @@
-import PostCard from "@/components/qna/PostCard";
-import QnaHeader from "@/components/qna/QnaHeader";
 import React from "react";
 import { db } from "../../../lib/db";
 import {
@@ -10,8 +8,9 @@ import { eq, sql } from "drizzle-orm";
 import { auth } from "../../../server/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { user } from "../../../lib/db/schema";
+import { question, user } from "../../../lib/db/schema";
 import { upsertStreamUser } from "@/config/stream";
+import QnaPage from "@/components/QNA";
 
 export default async function page() {
   const session = await auth.api.getSession({
@@ -23,34 +22,21 @@ export default async function page() {
     .select()
     .from(user)
     .where(eq(user.id, session.user.id));
-  if (!userRecord) redirect("/sign-up");
-
-  try {
-    await upsertStreamUser({
-      id: userRecord.id,
-      name: userRecord.name ?? "Anonymous",
-      image: userRecord.image,
-      role: "user",
-      email: userRecord.email ?? "",
-    });
-    console.log(`Successfully user upserted in stream for ${userRecord.name}`);
-  } catch (error) {
-    console.error("Stream upsert error:", error);
-    return <div>Error upserting user in Stream</div>;
+  if (!userRecord) {
+    return redirect("/sign-up");
   }
-
-  const questions = await db.query.question.findMany({
-    with: { user: true, likes: true, comments: true },
-  });
-
-  if (questions.length === 0) return <div>No questions found.</div>;
-
-  const questionsWithLikeCommentCount = questions.map((q) => ({
-    ...q,
-    likes: { count: q.likes.length },
-    comments: { count: q.comments.length },
-  }));
-
+  const questions: QuestionWithUserLikeAndComment[] =
+    await db.query.question.findMany({
+      with: {
+        user: true,
+        likes: true,
+        comments: true,
+      },
+    });
+  if (questions.length === 0) {
+    return <h1>No questions</h1>;
+  }
+  //
   return (
     <QnaPage
       userRecord={userRecord}

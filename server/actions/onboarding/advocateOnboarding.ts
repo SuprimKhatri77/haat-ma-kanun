@@ -69,7 +69,7 @@ export async function onboardingAdvocate(
   prevState: AdvocateOnboardingFormState,
   formData: FormData
 ) {
-  console.log("FormData: ", formData);
+  // console.log("FormData: ", formData);
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -103,12 +103,12 @@ export async function onboardingAdvocate(
     licenseFileUrl: formData.get("licenseFileUrl"),
     barNumber: Number(formData.get("barNumber")),
   });
-  console.log("BarNumber type: ", typeof formData.get("barNumber"));
+  // console.log("BarNumber type: ", typeof formData.get("barNumber"));
 
   if (!validateFileds.success) {
     const tree = z.treeifyError(validateFileds.error);
     const inputData = Object.fromEntries(formData);
-    console.log("Error Tree: ", tree);
+    // console.log("Error Tree: ", tree);
     return {
       errors: {
         properties: {
@@ -158,10 +158,13 @@ export async function onboardingAdvocate(
       id: userRecord.id,
       status: "pending",
     } satisfies AdvocateProfileInsertType);
-    await db.update(user).set({
-      image,
-      updatedAt: new Date(),
-    });
+    await db
+      .update(user)
+      .set({
+        image,
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, userRecord.id));
     return {
       message: "Onboarding form submitted successfully!",
       success: true,

@@ -8,6 +8,7 @@ import { db } from "../../../lib/db";
 import { question, user } from "../../../lib/db/schema";
 import { eq } from "drizzle-orm";
 import { timestamp } from "drizzle-orm/gel-core";
+import { revalidatePath } from "next/cache";
 
 export type QuestionFormState = {
   errors?: {
@@ -161,6 +162,7 @@ export async function createQuestions(
         | "schedules",
       language: language as "english" | "nepali",
     });
+    revalidatePath("/qna");
     return {
       message: "Question created successfully!",
       success: true,
