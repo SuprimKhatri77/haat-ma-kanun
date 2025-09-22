@@ -42,13 +42,7 @@ import {
   File,
 } from "lucide-react";
 
-type AdvocateOnboardingFormProps = {
-  className?: string;
-};
-
-export default function AdvocateOnboardingForm({
-  className,
-}: AdvocateOnboardingFormProps) {
+export default function AdvocateOnboardingForm() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState<string>("");
   const [licenseFileUrl, setLicenseFileUrl] = useState<string>("");
   const router = useRouter();
@@ -95,8 +89,7 @@ export default function AdvocateOnboardingForm({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 py-8 max-w-[800px] mx-auto justify-center min-h-screen px-4 mt-20",
-        className
+        "flex flex-col gap-8 py-8 max-w-[800px] mx-auto justify-center min-h-screen px-4 mt-20"
       )}
     >
       <div className="text-center space-y-4">
