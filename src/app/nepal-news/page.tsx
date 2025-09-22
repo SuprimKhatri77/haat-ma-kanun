@@ -31,7 +31,7 @@ export default function NepalLawNews() {
       <Loader />
     </div>
   ) : nepaliArticles.length === 0 ? (
-    <div className="min-h-screen flex justify-center items-center text-gray-700 dark:text-gray-300">
+    <div className="min-h-screen flex justify-center items-center text-gray-50 dark:text-gray-300">
       No Nepal-specific news found.
     </div>
   ) : (
