@@ -13,7 +13,7 @@ import AdvocateProfilesList from "@/components/AdvocateProfiles/AdvocateProfileL
 type AdvocateProfileWithUser = AdvocateProfileSelectType & {
   user: UserSelectType;
 };
-export default async function () {
+export default async function page () {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

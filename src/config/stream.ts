@@ -1,4 +1,4 @@
-import { StreamChat } from "stream-chat";
+import { StreamChat, UserResponse } from "stream-chat";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -7,7 +7,7 @@ export const serverClient = StreamChat.getInstance(
   process.env.STREAM_API_SECRET_KEY!
 );
 
-export const upsertStreamUser = async (userData: any) => {
+export const upsertStreamUser = async (userData: UserResponse) => {
   try {
     await serverClient.upsertUsers([userData]);
     return userData;
@@ -16,7 +16,7 @@ export const upsertStreamUser = async (userData: any) => {
   }
 };
 
-export const generateStreamToken = async (userid: any) => {
+export const generateStreamToken = async (userid: string) => {
   try {
     return serverClient.createToken(userid);
   } catch (error) {
