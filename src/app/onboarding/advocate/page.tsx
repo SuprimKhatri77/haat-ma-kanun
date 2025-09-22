@@ -48,7 +48,6 @@ type AdvocateOnboardingFormProps = {
 
 export default function AdvocateOnboardingForm({
   className,
-  ...props
 }: AdvocateOnboardingFormProps) {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState<string>("");
   const [licenseFileUrl, setLicenseFileUrl] = useState<string>("");
